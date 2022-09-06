@@ -1,4 +1,21 @@
 # extreme
 team_extreme
+#DBの作成
+DBを作成する．
+「Database name」に「dec_todo」を入力（DB名）
+「utf8mb4_unicode_ci」を選択→「作成」をクリック
+正常に作成されると，画面左側に作成したDB名が表示される．
+#テーブルの作成
+以下の手順でテーブルを作成しよう．
+##1つ目のテーブル
+名前欄に「todo_table」を入力（テーブル名）．
+カラム数を「5」に設定する．
+##2つ目のテーブル
+名前欄に「users_table」を入力（テーブル名）．
+カラム数を「7」に設定する．
 
-![image](https://user-images.githubusercontent.com/89437189/188614021-e3ba935b-7b00-4aa3-96c2-99fa5fedd0d2.png)
+テーブル名：todo_table
+![image](https://user-images.githubusercontent.com/89437189/188614800-35fa60da-372c-4ed4-ad4d-86c0541d7f19.png)
+
+テーブル名：users_table
+![image](https://user-images.githubusercontent.com/89437189/188614693-8aa6a065-4881-4eb8-ae90-a2230c6d92f6.png)
