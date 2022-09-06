@@ -10,6 +10,7 @@
 2つ目のテーブルは、名前欄に「users_table」を入力する。<br>
 カラム数を「7」に設定する。<br>
 
+
 テーブル名：todo_table
 
 ![image](https://user-images.githubusercontent.com/89437189/188614800-35fa60da-372c-4ed4-ad4d-86c0541d7f19.png)
