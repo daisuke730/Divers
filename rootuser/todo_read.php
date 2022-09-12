@@ -31,7 +31,7 @@ if ($status == false) {
       <tr>
         
         <td>{$record["todo"]}</td>
-        <td>{$record["url"]}</td>
+        <td class=\"break\">{$record["url"]}</td>
         <td>
         <a href='todo_edit.php?id={$record["id"]}'>edit</a>
         </td>
@@ -52,6 +52,15 @@ if ($status == false) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DB連携型todoリスト（一覧画面）</title>
+  <style>
+    fieldset {
+      min-width: 0;
+    }
+
+    .break {
+      word-break: break-all;
+    }
+  </style>
 </head>
 
 <body>
