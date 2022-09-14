@@ -31,7 +31,7 @@ if ($status == false) {
       <tr>
         
         <td>{$record["todo"]}</td>
-        <td class=\"break\">{$record["url"]}</td>
+        <td class=\"break\"><a href=\"{$record['url']}\" target=\"_blank\" rel=\"noopener noreferrer\">{$record["url"]}</a></td>
         <td>
         <a href='todo_edit.php?id={$record["id"]}'>edit</a>
         </td>
