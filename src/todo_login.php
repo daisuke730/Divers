@@ -2,10 +2,10 @@
 session_start();
 include('functions.php');
 
-$error_message = '';
+function login() {
+  // ログインしようとしているかどうかを判定 (username, passwordがPOSTされているかどうか)
+  if (!isset($_POST['username']) && !isset($_POST['password'])) return;
 
-// ログインしようとしているかどうかを判定 (username, passwordがPOSTされているかどうか)
-if(isset($_POST['username']) && isset($_POST['password'])) {
   $username = $_POST['username'];
   $password = $_POST['password'];
 
@@ -25,18 +25,18 @@ if(isset($_POST['username']) && isset($_POST['password'])) {
 
   $val = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  // ログインに成功した場合
-  if ($val) {
-    $_SESSION = array();
-    $_SESSION['session_id'] = session_id();
-    $_SESSION['is_admin'] = $val['is_admin'];
-    $_SESSION['username'] = $val['username'];
-    header("Location:todo_read.php");
-    exit();
-  }
+  // ログインに失敗した場合
+  if (!$val) return 'ユーザ名またはパスワードに誤りがあります。';
 
-  $error_message = 'ユーザ名かパスワードに誤りがあります';
+  $_SESSION = array();
+  $_SESSION['session_id'] = session_id();
+  $_SESSION['is_admin'] = $val['is_admin'];
+  $_SESSION['username'] = $val['username'];
+  header("Location:todo_read.php");
+  exit();
 }
+
+$error_message = login();
 ?>
 
 <!DOCTYPE html>
