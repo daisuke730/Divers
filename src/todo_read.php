@@ -27,12 +27,24 @@ if ($status == false) {
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $output = "";
   foreach ($result as $record) {
-    $output .= "
+    $output .= !$_SESSION['is_admin'] ? "
       <tr>
         
         <td>{$record["todo"]}</td>
         <td class=\"break\">{$record["url"]}</td>
         
+      </tr>
+    " : "
+      <tr>
+        
+        <td>{$record["todo"]}</td>
+        <td class=\"break\"><a href=\"{$record['url']}\" target=\"_blank\" rel=\"noopener noreferrer\">{$record["url"]}</a></td>
+        <td>
+        <a href='todo_edit.php?id={$record["id"]}'>edit</a>
+        </td>
+        <td>
+        <a href='todo_delete.php?id={$record["id"]}'>delete</a>
+        </td>  
       </tr>
     ";
   }
