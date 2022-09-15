@@ -43,23 +43,10 @@ if ($status == false) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DB連携型todoリスト（一覧画面）</title>
-  <style>
-    fieldset {
-      min-width: 0;
-    }
-
-    .break {
-      word-break: break-all;
-    }
-  </style>
-</head>
+<?php
+$title = "DB連携型todoリスト（一覧画面）";
+include("components/head.php");
+?>
 
 <body>
 <fieldset>

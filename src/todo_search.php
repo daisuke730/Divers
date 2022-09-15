@@ -17,30 +17,27 @@ if ($isExistQuery) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="ja">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>DB連携型todoリスト（検索画面）</title>
-    </head>
+<?php
+$title = "DB連携型todoリスト（検索画面）";
+include("components/head.php");
+?>
 
-    <body>
-        <fieldset>
-            <legend>DB連携型todoリスト（検索画面）</legend>
-            <form>
-                <input type="search" name="query" placeholder="ここに地点名などを入力" value="<?= $query ?>">
-                <button>検索</button>
-            </form>
-            <?php
-                if($isExistQuery && $status) {
-                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    echo '<p>検索結果：' . count($result) . '件</p>';
-                    foreach ($result as $record) {
-                        echo "<div><a href=\"{$record['url']}\" target=\"_blank\" rel=\"noopener noreferrer\">{$record['todo']}</a></div>";
-                    }
+<body>
+    <fieldset>
+        <legend>DB連携型todoリスト（検索画面）</legend>
+        <form>
+            <input type="search" name="query" placeholder="ここに地点名などを入力" value="<?= $query ?>">
+            <button>検索</button>
+        </form>
+        <?php
+            if($isExistQuery && $status) {
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                echo '<p>検索結果：' . count($result) . '件</p>';
+                foreach ($result as $record) {
+                    echo "<div><a href=\"{$record['url']}\" target=\"_blank\" rel=\"noopener noreferrer\">{$record['todo']}</a></div>";
                 }
-            ?>
-        </fieldset>
-    </body>
+            }
+        ?>
+    </fieldset>
+</body>
 </html>

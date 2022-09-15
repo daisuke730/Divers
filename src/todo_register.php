@@ -46,14 +46,10 @@ function register() {
 $error_message = register();
 ?>
 
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>todoリストユーザ登録画面</title>
-</head>
+<?php
+$title = "ユーザ登録";
+include("components/head.php");
+?>
 
 <body>
   <form method="POST">
