@@ -1,11 +1,13 @@
 <?php
+require('env.php');
 
 function connect_to_db() {
-  $dbn='mysql:dbname=dec_todo;charset=utf8;port=3306;host=localhost';
-  $user = 'root';
-  $pwd = '';
+  // データベースの接続に関する設定は env.php から編集してください
+
+  $env = get_env("database");
+  $dbn="mysql:dbname={$env["dbName"]};charset=utf8;port={$env["port"]};host={$env["host"]}";
   try {
-    return new PDO($dbn, $user, $pwd);
+    return new PDO($dbn, $env["user"], $env["pass"]);
   } catch (PDOException $e) {
     echo json_encode(["db error" => "{$e->getMessage()}"]);
     exit();
