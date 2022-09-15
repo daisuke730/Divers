@@ -8,7 +8,7 @@ include("components/head.php");
 ?>
 
 <body>
-<form action="todo_create.php" method="POST">
+  <form action="todo_create.php" method="POST">
     <fieldset>
       <legend>DB連携型todoリスト（入力画面）</legend>
       <a href="todo_read.php">一覧画面</a>
@@ -24,7 +24,6 @@ include("components/head.php");
       </div>
     </fieldset>
   </form>
-
 </body>
 
-</html>
+<?php include("components/footer.php"); ?>

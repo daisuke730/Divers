@@ -26,26 +26,24 @@ include("components/head.php");
 ?>
 
 <body>
-<form action="todo_update.php" method="POST">
-  <fieldset>
-    <legend>DB連携型todoリスト（編集画面）</legend>
-    <a href="todo_read.php">一覧画面</a>
-    <div>
-      todo: <input type="text" name="todo" value="<?= $record['todo'] ?>">
-    </div>
-    <div>
-      url: <input type="url" name="url" value="<?= $record['url'] ?>">
-    </div>
-    <div>
-      <input type="hidden" name="id" value="<?= $record['id'] ?>">
-    </div>
-    <div>
-      <button>submit</button>
-    </div>
-  </fieldset>
-</form>
-
-
+  <form action="todo_update.php" method="POST">
+    <fieldset>
+      <legend>DB連携型todoリスト（編集画面）</legend>
+      <a href="todo_read.php">一覧画面</a>
+      <div>
+        todo: <input type="text" name="todo" value="<?= $record['todo'] ?>">
+      </div>
+      <div>
+        url: <input type="url" name="url" value="<?= $record['url'] ?>">
+      </div>
+      <div>
+        <input type="hidden" name="id" value="<?= $record['id'] ?>">
+      </div>
+      <div>
+        <button>submit</button>
+      </div>
+    </fieldset>
+  </form>
 </body>
 
-</html>
+<?php include("components/footer.php"); ?>

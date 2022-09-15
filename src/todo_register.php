@@ -68,7 +68,6 @@ include("components/head.php");
       <a href="todo_login.php">or login</a>
     </fieldset>
   </form>
-
 </body>
 
-</html>
+<?php include("components/footer.php"); ?>

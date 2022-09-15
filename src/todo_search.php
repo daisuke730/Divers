@@ -40,4 +40,5 @@ include("components/head.php");
         ?>
     </fieldset>
 </body>
-</html>
+
+<?php include("components/footer.php"); ?>
