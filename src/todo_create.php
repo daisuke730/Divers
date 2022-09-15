@@ -13,16 +13,7 @@ $todo = $_POST['todo'];
 $url = $_POST['url'];
 
 // DB接続
-$dbn = 'mysql:dbname=dec_todo;charset=utf8;port=3306;host=localhost';
-$user = 'root';
-$pwd = '';
-
-try {
-  $pdo = new PDO($dbn, $user, $pwd);
-} catch (PDOException $e) {
-  echo json_encode(["db error" => "{$e->getMessage()}"]);
-  exit();
-}
+$pdo = connect_to_db();
 
 $sql = 'INSERT INTO todo_table(id, todo, url, created_at, updated_at) VALUES(NULL, :todo, :url, now(), now())';
 

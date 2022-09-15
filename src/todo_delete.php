@@ -5,7 +5,6 @@ check_session_id();
 // データ受け取り
 $id = $_GET['id'];
 
-
 $pdo = connect_to_db();
 
 $sql = 'DELETE FROM todo_table WHERE id=:id';
