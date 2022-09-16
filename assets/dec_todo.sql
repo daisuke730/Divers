@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: 127.0.0.1
--- 生成日時: 2022-09-16 14:12:07
+-- 生成日時: 2022-09-16 14:48:16
 -- サーバのバージョン： 10.4.24-MariaDB
 -- PHP のバージョン: 8.1.6
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- データベース: `dec_todo`
 --
+CREATE DATABASE IF NOT EXISTS `dec_todo` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `dec_todo`;
 
 -- --------------------------------------------------------
 
