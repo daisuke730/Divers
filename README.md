@@ -42,7 +42,7 @@ phpMyAdminのトップページにある「インポート」タブから、上�
    |----|----|----|----|
    |id|INT|12|`A_I`にチェックを付け、インデックスを`PRIMARY`に設定|
    |todo|VARCHAR|128||
-   |url|VARCHAR|1024||
+   |url|VARCHAR|4096||
    |created_at|DATETIME|||
    |updated_at|DATETIME|||
 6. 「新しいテーブルを作成」をクリックし、テーブル名を「`users_table`」に、カラム数を「`7`」に指定してから作成ボタンを入力します。
