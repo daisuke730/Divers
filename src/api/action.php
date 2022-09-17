@@ -8,7 +8,13 @@ if(!is_loggedin()) {
   exit();
 }
 
-$pdo = connect_db();
+// クエリがセットされていない場合は弾く
+if(!isset($_GET['q']) || !isset($_POST['q'])) {
+  http_response_code(400);
+  exit();
+}
+
+$pdo = connect_to_db();
 
 // POSTリクエスト
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
