@@ -18,7 +18,7 @@ if ($status == false) {
   echo json_encode(["error_msg" => "{$error[2]}"]);
   exit();
 } else {
-  header("Location:todo_read.php");
+  header("Location:./");
   exit();
 }?>
 
