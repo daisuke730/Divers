@@ -17,14 +17,11 @@ function get() {
   $stmt->bindValue(':id', $id, PDO::PARAM_INT);
   $status = $stmt->execute();
 
-  if ($status == false) {
-    $error = $stmt->errorInfo();
-    echo json_encode(["error_msg" => "{$error[2]}"]);
-    exit();
-  } else {
-    $record = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $record;
-  }
+  // エラーチェック
+  db_error_check($status, $stmt);
+
+  $record = $stmt->fetch(PDO::FETCH_ASSOC);
+  return $record;
 }
 
 function post() {
@@ -43,14 +40,30 @@ function post() {
 
   // 新規投稿か編集かで処理を分ける
   if($id === -1) {
-    $sql = 'INSERT INTO todo_table(id, todo, url, created_at, updated_at) VALUES(NULL, :todo, :url, now(), now())';
+    // 新規投稿
+    $sql = 'INSERT INTO todo_table(id, todo, url, created_at, updated_at, user_id) VALUES(NULL, :todo, :url, now(), now(), :user_id)';
   } else {
+    // 編集
+
+    // 投稿者と編集しようとしている人が同一か (または管理者か) 判別
+    $sql = 'SELECT * FROM todo_table WHERE id=:id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $status = $stmt->execute();
+
+    // エラーチェック
+    db_error_check($status, $stmt);
+
+    $record = $stmt->fetch(PDO::FETCH_ASSOC);
+    $id = $record['id'];
+
     $sql = 'UPDATE todo_table SET todo=:todo, url=:url, updated_at=now() WHERE id=:id';
   }
 
   $stmt = $pdo->prepare($sql);
   $stmt->bindValue(':todo', $todo, PDO::PARAM_STR);
   $stmt->bindValue(':url', $url, PDO::PARAM_STR);
+  $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
 
   // 編集の場合はIDもバインド
   if($id !== -1) {
@@ -59,14 +72,11 @@ function post() {
 
   $status = $stmt->execute();
 
-  if ($status == false) {
-    $error = $stmt->errorInfo();
-    echo json_encode(["error_msg" => "{$error[2]}"]);
-    exit();
-  } else {
-    header("Location:.");
-    exit();
-  }
+  // エラーチェック
+  db_error_check($status, $stmt);
+
+  header("Location:.");
+  exit();
 }
 
 $error_message = $_SERVER['REQUEST_METHOD'] === 'POST' ? post() : null;

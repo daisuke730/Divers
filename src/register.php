@@ -18,11 +18,8 @@ function register() {
   $stmt->bindValue(':username', $username, PDO::PARAM_STR);
   $status = $stmt->execute();
 
-  if ($status == false) {
-    $error = $stmt->errorInfo();
-    echo json_encode(["error_msg" => "{$error[2]}"]);
-    exit();
-  }
+  // エラーチェック
+  db_error_check($status, $stmt);
 
   // すでに登録されていた場合
   if ($stmt->fetchColumn() > 0) return 'そのユーザー名は使用されています。';
@@ -33,11 +30,8 @@ function register() {
   $stmt->bindValue(':password', $password, PDO::PARAM_STR);
   $status = $stmt->execute();
 
-  if ($status == false) {
-    $error = $stmt->errorInfo();
-    echo json_encode(["error_msg" => "{$error[2]}"]);
-    exit();
-  }
+  // エラーチェック
+  db_error_check($status, $stmt);
 
   header("Location:login.php");
   exit();

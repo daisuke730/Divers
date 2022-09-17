@@ -14,6 +14,14 @@ function connect_to_db() {
   }
 }
 
+function db_error_check($status, $stmt) {
+  if ($status == false) {
+    $error = $stmt->errorInfo();
+    echo json_encode(["error_msg" => "{$error[2]}"]);
+    exit();
+  }
+}
+
 function check_session_id() {
   if (!isset($_SESSION["session_id"]) || $_SESSION["session_id"] != session_id()) {
     header("Location:login.php");

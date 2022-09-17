@@ -20,12 +20,8 @@ function login() {
   $stmt->bindValue(':password', $password, PDO::PARAM_STR);
   $status = $stmt->execute();
 
-  // エラーであれば終了
-  if ($status == false) {
-    $error = $stmt->errorInfo();
-    echo json_encode(["error_msg" => "{$error[2]}"]);
-    exit();
-  }
+  // エラーチェック
+  db_error_check($status, $stmt);
 
   $val = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -36,6 +32,7 @@ function login() {
   $_SESSION['session_id'] = session_id();
   $_SESSION['is_admin'] = $val['is_admin'];
   $_SESSION['username'] = $val['username'];
+  $_SESSION['user_id'] = $val['id'];
   header("Location:./posts");
   exit();
 }
