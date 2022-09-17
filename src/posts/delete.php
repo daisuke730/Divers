@@ -1,10 +1,10 @@
 <?php
 session_start();
-include('functions.php');
+include('../functions.php');
 check_session_id();
+
 // データ受け取り
 $id = $_GET['id'];
-
 $pdo = connect_to_db();
 
 $sql = 'DELETE FROM todo_table WHERE id=:id';
@@ -20,9 +20,5 @@ if ($status == false) {
 } else {
   header("Location:./");
   exit();
-}?>
-
-// DB接続
-
-
-// SQL実行
+}
+?>
