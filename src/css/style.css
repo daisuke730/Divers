@@ -14,3 +14,7 @@
 .ui.form > * {
     margin: 8px 0;
 }
+
+.top-space {
+    margin-top: 5vh;
+}
