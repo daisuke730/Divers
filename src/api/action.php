@@ -9,7 +9,7 @@ if(!is_loggedin()) {
 }
 
 // クエリがセットされていない場合は弾く
-if(!isset($_GET['q']) || !isset($_POST['q'])) {
+if(!isset($_GET['q']) && !isset($_POST['q'])) {
   http_response_code(400);
   exit();
 }
@@ -76,6 +76,19 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
       $stmt->execute();
       $result = $stmt->fetch(PDO::FETCH_ASSOC);
+      echo json_encode($result);
+      break;
+    }
+
+    // 投稿を取得
+    // pageクエリでオフセットを設定可能 (50件ずつ)
+    case 'getPosts': {
+      $sql = "SELECT * FROM todo_table ORDER BY updated_at DESC LIMIT 50 OFFSET :offset";
+      $stmt = $pdo->prepare($sql);
+      $offset = isset($_GET['page']) ? (max((int)$_GET['page'], 1) - 1) * 50 : 0;
+      $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+      $stmt->execute();
+      $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
       echo json_encode($result);
       break;
     }
