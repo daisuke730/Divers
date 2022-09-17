@@ -3,8 +3,12 @@ session_start();
 include('functions.php');
 
 function login() {
-  // ログインしようとしているかどうかを判定 (username, passwordがPOSTされているかどうか)
-  if (!isset($_POST['username']) && !isset($_POST['password'])) return;
+  // POSTリクエストでなければ終了
+  if($_SERVER['REQUEST_METHOD'] !== 'POST') return;
+
+  // 入力チェック
+  $isValidInput = isset($_POST['username']) && $_POST['username'] !== '' && isset($_POST['password']) && $_POST['password'] !== '';
+  if (!$isValidInput) return 'ユーザ名またはパスワードが入力されていません。';
 
   $username = $_POST['username'];
   $password = $_POST['password'];
