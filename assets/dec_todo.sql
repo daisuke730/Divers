@@ -21,7 +21,8 @@ CREATE TABLE `todo_table` (
   `todo` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
   `url` varchar(4096) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  `user_id` int(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `users_table` (
