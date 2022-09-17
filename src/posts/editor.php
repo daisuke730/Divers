@@ -4,7 +4,7 @@ include('../functions.php');
 check_session_id();
 
 // 編集モードに入るかどうか
-$is_editmode = isset($_GET['id']);
+$is_editmode = $_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id']);
 
 function get() {
   // idが指定されていなければ終了
@@ -55,7 +55,9 @@ function post() {
     db_error_check($status, $stmt);
 
     $record = $stmt->fetch(PDO::FETCH_ASSOC);
-    $id = $record['id'];
+    if ($record['user_id'] !== $_SESSION['user_id'] && $_SESSION['is_admin'] !== 1) {
+      return '投稿者以外は編集できません。';
+    }
 
     $sql = 'UPDATE todo_table SET todo=:todo, url=:url, updated_at=now() WHERE id=:id';
   }
