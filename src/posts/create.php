@@ -15,9 +15,7 @@ function create() {
 
   // DB接続
   $pdo = connect_to_db();
-
   $sql = 'INSERT INTO todo_table(id, todo, url, created_at, updated_at) VALUES(NULL, :todo, :url, now(), now())';
-
   $stmt = $pdo->prepare($sql);
   $stmt->bindValue(':todo', $todo, PDO::PARAM_STR);
   $stmt->bindValue(':url', $url, PDO::PARAM_STR);
@@ -28,7 +26,7 @@ function create() {
     echo json_encode(["error_msg" => "{$error[2]}"]);
     exit();
   } else {
-    header("Location:todo_input.php");
+    header("Location:.");
     exit();
   }
 }
@@ -49,13 +47,26 @@ include("../components/head.php");
       <form method="POST">
         <div class="ui form">
           <div class="field">
-            <label>ルート名</label>
-            <input type="text" name="todo" placeholder="ルート名">
-          </div>
-          <div class="field">
             <label>URL</label>
-            <input type="url" name="url" placeholder="URL">
+            <input id="url-input" type="url" name="url" placeholder="URL">
           </div>
+          <p>出発地と目的地はURLを貼り付けると自動的に入力されます。</p>
+          <p>(この機能は開発途中のため、想定通りに動作しないことがあります。)</p>
+          <div class="ui two column doubling grid">
+            <div class="column">
+              <div class="field">
+                <label>出発地</label>
+                <input id="start-point-name" type="text" name="start" placeholder="出発地">
+              </div>
+            </div>
+            <div class="column">
+              <div class="field">
+                <label>目的地</label>
+                <input id="end-point-name" type="text" name="end" placeholder="目的地">
+              </div>
+            </div>
+          </div>
+          <input id="route-name" type="hidden" name="todo">
           <button class="ui fluid large teal submit button" type="submit">投稿</button>
         </div>
       </form>
@@ -63,4 +74,6 @@ include("../components/head.php");
   </div>
 </body>
 
+<script src="/js/url_parser.js"></script>
+<script src="/js/post_page.js"></script>
 <?php include("../components/footer.php"); ?>
