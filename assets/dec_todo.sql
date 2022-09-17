@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: 127.0.0.1
--- 生成日時: 2022-09-16 14:48:16
+-- 生成日時: 2022-09-17 07:50:31
 -- サーバのバージョン： 10.4.24-MariaDB
 -- PHP のバージョン: 8.1.6
 
@@ -20,8 +20,18 @@ SET time_zone = "+00:00";
 --
 -- データベース: `dec_todo`
 --
-CREATE DATABASE IF NOT EXISTS `dec_todo` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `dec_todo`;
+
+-- --------------------------------------------------------
+
+--
+-- テーブルの構造 `likes`
+--
+
+CREATE TABLE `likes` (
+  `post_id` int(12) NOT NULL,
+  `user_id` int(12) NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 

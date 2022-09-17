@@ -56,3 +56,10 @@ phpMyAdminのトップページにある「インポート」タブから、上�
    |is_deleted|INT|1|論理削除に使用|
    |created_at|DATETIME|||
    |updated_at|DATETIME|||
+8. 「新しいテーブルを作成」をクリックし、テーブル名を「`likes`」に、カラム数を「`3`」に指定してから作成ボタンを入力します。
+9. 以下に従ってテーブルを作成します。  
+   |名前|タイプ|長さ|備考|
+   |----|----|----|----|
+   |post_id|INT|12||
+   |user_id|INT|12||
+   |created_at|DATETIME|||
