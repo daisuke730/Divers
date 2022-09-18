@@ -36,13 +36,16 @@ const MANAGE_COMPONENT_TEMPLATE = `
 </span>
 `
 
+const PAGINATION_TEMPLATE = `
+<a class="item %CLASS%" onclick="%ACTION%">%NUMBER%</a>
+`
+
 async function renderingPosts(page = 1, search) {
     // APIから投稿を取得
-
     let params = {page}
     if (search) params['search'] = search
-    let posts = await api('GET', 'getPosts', params).then(res => res.json())
-    let postsHtmlArray = posts.map(post => {
+    let res = await api('GET', 'getPosts', params).then(res => res.json())
+    let postsHtmlArray = res.posts.map(post => {
         return CARD_TEMPLATE
             .replace(/%ROUTE_NAME%/g, post.todo)
             .replace(/%ROUTE_ID%/g, post.id)
@@ -54,6 +57,25 @@ async function renderingPosts(page = 1, search) {
 
     // htmlとして追加
     $('#route-list').html(postsHtmlArray.join(''))
+
+    // ページネーションを作成
+    let maxPage = Math.ceil(res.count / 10)
+    let paginationHtmlArray = []
+
+    if (maxPage > 1) {
+        paginationHtmlArray.push(getPaginationTemplate(1, page === 1 ? 'disabled' : '', '<<'))
+        paginationHtmlArray.push(getPaginationTemplate(Math.max(page - 1, 1), page === 1 ? 'disabled' : '', '<'))
+
+        for (let i = 1; i <= maxPage; i++) {
+            paginationHtmlArray.push(getPaginationTemplate(i, i === page ? 'active' : ''))
+        }
+
+        paginationHtmlArray.push(getPaginationTemplate(Math.min(page + 1, maxPage), page === maxPage ? 'disabled' : '', '>'))
+        paginationHtmlArray.push(getPaginationTemplate(maxPage, page === maxPage ? 'disabled' : '', '>>'))
+    }
+
+    $('#pagination').html(paginationHtmlArray.join(''))
+    $('#route-count').text(res.count ? `全${res.count}件中 ${1 + res.offset} ~ ${Math.min(10 + res.offset, res.count)}件目を表示中` : '投稿が見つかりませんでした。')
 }
 
 function setLikeState(id, state, count) {
@@ -78,6 +100,13 @@ function getManageComponentTemplate(id) {
     return MANAGE_COMPONENT_TEMPLATE
         .replace(/%EDIT_ACTION%/g, `location.href = 'editor.php?id=${id}'`)
         .replace(/%DELETE_ACTION%/g, `showDeleteModal(${id})`)
+}
+
+function getPaginationTemplate(page, cssClass, text) {
+    return PAGINATION_TEMPLATE
+        .replace(/%CLASS%/g, cssClass)
+        .replace(/%ACTION%/g, cssClass === 'disabled' ? '' : `renderingPosts(${page})`)
+        .replace(/%NUMBER%/g, text || page)
 }
 
 function showDeleteModal(id) {
