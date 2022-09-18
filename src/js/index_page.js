@@ -49,7 +49,7 @@ async function renderingPosts(page = 1, search) {
             .replace(/%ROUTE_CREATED_AT%/g, post.created_at)
             .replace(/%ROUTE_DESCRIPTION%/g, 'ここに説明文が入ります')
             .replace(/%BUTTON_COMPONENT%/g, getLikeButtonTemplate(post.id, post.is_liked, post.like_count))
-            .replace(/%MANAGE_COMPONENT%/g, getManageComponentTemplate(post.id))
+            .replace(/%MANAGE_COMPONENT%/g, post.can_edit ? getManageComponentTemplate(post.id) : '')
     })
 
     // htmlとして追加
