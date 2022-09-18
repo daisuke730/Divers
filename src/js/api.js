@@ -1,11 +1,13 @@
 const endpoint = '/api/action.php'
 
-async function api(method, json) {
+async function api(method, action, params) {
+    params['q'] = action
+
     switch(method) {
         case 'GET': {
             let querys = []
-            for (let key in json) {
-                querys.push(`${key}=${json[key]}`)
+            for (let key in params) {
+                querys.push(`${key}=${params[key]}`)
             }
 
             let urlWithQuery = `${endpoint}?${querys.join('&')}`
@@ -14,8 +16,8 @@ async function api(method, json) {
 
         case 'POST': {
             let formData = new FormData()
-            for (let key in json) {
-                formData.append(key, json[key])
+            for (let key in params) {
+                formData.append(key, params[key])
             }
 
             return await fetch(endpoint, {
