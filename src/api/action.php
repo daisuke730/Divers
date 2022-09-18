@@ -107,14 +107,15 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 if($_SERVER['REQUEST_METHOD'] === 'GET') {
   switch($_GET['q']) {
     // 投稿一覧を取得
-    // - pageクエリでオフセットを設定可能 (20件ずつ)
+    // - pageクエリでオフセットを設定可能 (10件ずつ)
     // - searchクエリで投稿を検索可能
     case 'getPosts': {
       $keyword = isset($_GET['search']) ? $_GET['search'] : '';
 
-      $sql = "SELECT * FROM todo_table WHERE todo LIKE :keyword ORDER BY updated_at DESC LIMIT 20 OFFSET :offset";
+      // 投稿を取得
+      $sql = "SELECT * FROM todo_table WHERE todo LIKE :keyword ORDER BY updated_at DESC LIMIT 10 OFFSET :offset";
       $stmt = $pdo->prepare($sql);
-      $offset = isset($_GET['page']) ? (max((int)$_GET['page'], 1) - 1) * 20 : 0;
+      $offset = isset($_GET['page']) ? (max((int)$_GET['page'], 1) - 1) * 10 : 0;
       $stmt->bindValue(':keyword', "%{$keyword}%", PDO::PARAM_STR);
       $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
       $stmt->execute();
@@ -131,7 +132,20 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
         $post['can_edit'] = $post['user_id'] === $_SESSION['user_id'] || $_SESSION['is_admin'] === 1;
       }
 
-      echo json_encode($result);
+      // 投稿の件数を取得
+      $sql = "SELECT COUNT(*) AS count FROM todo_table WHERE todo LIKE :keyword";
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindValue(':keyword', "%{$keyword}%", PDO::PARAM_STR);
+      $stmt->execute();
+      $count = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      // 投稿の件数と投稿を返す
+      echo json_encode([
+        'count' => $count['count'],
+        'offset' => $offset,
+        'posts' => $result
+      ]);
+
       exit();
     }
 
