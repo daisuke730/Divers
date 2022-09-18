@@ -31,7 +31,7 @@ function post() {
   // 入力チェック
   if (!isset($_POST['todo']) || $_POST['todo'] == '' || !isset($_POST['url']) || $_POST['url'] == '' || !isset($_POST['id'])) return '入力が不足している箇所があります。';
 
-  $id = $_POST['id'];
+  $id = (int)$_POST['id'];
   $todo = $_POST['todo'];
   $url = $_POST['url'];
 
@@ -65,9 +65,13 @@ function post() {
   $stmt = $pdo->prepare($sql);
   $stmt->bindValue(':todo', $todo, PDO::PARAM_STR);
   $stmt->bindValue(':url', $url, PDO::PARAM_STR);
-  $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
 
-  // 編集の場合はIDもバインド
+  // 新規投稿の場合はuser_idをバインド
+  if($id === -1) {
+    $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+  }
+
+  // 編集の場合はIDをバインド
   if($id !== -1) {
     $stmt->bindValue(':id', $id, PDO::PARAM_INT);
   }
