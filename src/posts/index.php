@@ -10,13 +10,30 @@ include("../components/head.php");
 ?>
 
 <!-- TODO: 検索機能の実装 -->
-<!-- TODO: 自身の投稿 (or管理者) の場合に編集/削除ボタンを表示させる -->
 <!-- TODO: メニューの実装 -->
+<!-- TODO: 詳細ページの実装 -->
 
 <body>
-  <div class="ui container top-space">
-    <a href="editor.php" class="ui button">ルートを投稿する</a>
-    <div id="route-list" class="ui cards"></div>
+  <div class="card-container">
+    <div class="ui container">
+      <h2>ルート一覧</h2>
+      <a href="editor.php" class="ui button teal">ルートを投稿する</a>
+      <div id="route-list" class="ui cards"></div>
+    </div>
+  </div>
+  <div id="deleteConfirmModal" class="ui modal mini">
+    <div class="header">投稿を削除しますか？</div>
+    <div class="content">
+      <p>この操作は取り消すことが出来ません。</p>
+      <p>本当に投稿を削除しますか？</p>
+    </div>
+    <div class="actions">
+      <div class="ui ok red labeled icon button" id="delete-confirm-button">
+        <i class="trash icon"></i>
+        削除する
+      </div>
+      <div class="ui cancel green button">いいえ</div>
+    </div>
   </div>
 </body>
 
