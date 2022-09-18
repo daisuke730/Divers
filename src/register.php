@@ -42,30 +42,29 @@ $error_message = register();
 
 <?php
 $title = "ユーザ登録";
+$bgColor = true;
 include("components/head.php");
 ?>
 
-<body>
-  <div class="form-container">
-    <div class="ui container">
-      <h2 class="ui center aligned">新規登録</h2>
-      <?php if ($error_message) echo '<div class="ui red message">' . $error_message . '</div>' ?>
-      <form method="POST">
-        <div class="ui form">
-          <div class="field">
-            <label>ユーザ名</label>
-            <input type="text" name="username" placeholder="ユーザ名">
-          </div>
-          <div class="field">
-            <label>パスワード</label>
-            <input type="password" name="password" placeholder="パスワード">
-          </div>
-          <button class="ui fluid large teal submit button" type="submit">登録</button>
+<div class="form-container">
+  <div class="ui container">
+    <h2 class="ui center aligned">新規登録</h2>
+    <?php if ($error_message) echo '<div class="ui red message">' . $error_message . '</div>' ?>
+    <form method="POST">
+      <div class="ui form">
+        <div class="field">
+          <label>ユーザ名</label>
+          <input type="text" name="username" placeholder="ユーザ名">
         </div>
-      </form>
-      <h4>既にアカウントがある場合は<a href="login.php">こちらからログイン</a></h4>
-    </div>
+        <div class="field">
+          <label>パスワード</label>
+          <input type="password" name="password" placeholder="パスワード">
+        </div>
+        <button class="ui fluid large teal submit button" type="submit">登録</button>
+      </div>
+    </form>
+    <h4>既にアカウントがある場合は<a href="login.php">こちらからログイン</a></h4>
   </div>
-</body>
+</div>
 
 <?php include("components/footer.php"); ?>

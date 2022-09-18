@@ -91,44 +91,43 @@ $record = $_SERVER['REQUEST_METHOD'] === 'GET' ? get() : null;
 
 <?php
 $title = $is_editmode ? '投稿を編集' : '投稿を作成';
+$bgColor = true;
 include("../components/head.php");
 ?>
 
-<body>
-  <div class="form-container">
-    <div class="ui container">
-      <h2 class="ui center aligned"><?= $is_editmode ? '投稿を編集' : '新しい投稿を作成' ?></h2>
-      <?php if ($error_message) echo '<div class="ui red message">' . $error_message . '</div>' ?>
-      <form method="POST">
-        <div class="ui form">
-          <div class="field">
-            <label>URL</label>
-            <input id="url-input" type="url" name="url" placeholder="URL" value="<?= $is_editmode ? $record['url'] : '' ?>">
-          </div>
-          <p>出発地と目的地はURLを貼り付けると自動的に入力されます。</p>
-          <p>(この機能は開発途中のため、想定通りに動作しないことがあります。)</p>
-          <div class="ui two column doubling grid">
-            <div class="column">
-              <div class="field">
-                <label>出発地</label>
-                <input id="start-point-name" type="text" name="start" placeholder="出発地">
-              </div>
-            </div>
-            <div class="column">
-              <div class="field">
-                <label>目的地</label>
-                <input id="end-point-name" type="text" name="end" placeholder="目的地">
-              </div>
-            </div>
-          </div>
-          <input id="route-name" type="hidden" name="todo">
-          <input type="hidden" name="id" value="<?= $is_editmode ? $record['id'] : -1 ?>">
-          <button class="ui fluid large teal submit button" type="submit"><?= $is_editmode ? '編集' : '投稿' ?></button>
+<div class="form-container">
+  <div class="ui container">
+    <h2 class="ui center aligned"><?= $is_editmode ? '投稿を編集' : '新しい投稿を作成' ?></h2>
+    <?php if ($error_message) echo '<div class="ui red message">' . $error_message . '</div>' ?>
+    <form method="POST">
+      <div class="ui form">
+        <div class="field">
+          <label>URL</label>
+          <input id="url-input" type="url" name="url" placeholder="URL" value="<?= $is_editmode ? $record['url'] : '' ?>">
         </div>
-      </form>
-    </div>
+        <p>出発地と目的地はURLを貼り付けると自動的に入力されます。</p>
+        <p>(この機能は開発途中のため、想定通りに動作しないことがあります。)</p>
+        <div class="ui two column doubling grid">
+          <div class="column">
+            <div class="field">
+              <label>出発地</label>
+              <input id="start-point-name" type="text" name="start" placeholder="出発地">
+            </div>
+          </div>
+          <div class="column">
+            <div class="field">
+              <label>目的地</label>
+              <input id="end-point-name" type="text" name="end" placeholder="目的地">
+            </div>
+          </div>
+        </div>
+        <input id="route-name" type="hidden" name="todo">
+        <input type="hidden" name="id" value="<?= $is_editmode ? $record['id'] : -1 ?>">
+        <button class="ui fluid large teal submit button" type="submit"><?= $is_editmode ? '編集' : '投稿' ?></button>
+      </div>
+    </form>
   </div>
-</body>
+</div>
 
 <script src="/js/url_parser.js"></script>
 <script src="/js/post_page.js"></script>
