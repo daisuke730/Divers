@@ -10,7 +10,6 @@ $bgColor = true;
 include("../components/head.php");
 ?>
 
-<!-- TODO: メニューの実装 -->
 <!-- TODO: 詳細ページの実装 -->
 
 <div class="card-container">

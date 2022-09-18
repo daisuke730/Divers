@@ -45,6 +45,13 @@
     flex-grow: 1;
 }
 
+.ui.secondary.menu {
+    padding: 8px;
+    margin: 0 !important;
+    background: #fff;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
 .top-space {
     margin-top: 5vh;
 }
