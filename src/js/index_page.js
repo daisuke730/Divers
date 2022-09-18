@@ -36,9 +36,12 @@ const MANAGE_COMPONENT_TEMPLATE = `
 </span>
 `
 
-async function renderingPosts(page = 1) {
+async function renderingPosts(page = 1, search) {
     // APIから投稿を取得
-    let posts = await api('GET', {q: 'getPosts', page}).then(res => res.json())
+
+    let params = {page}
+    if (search) params['search'] = search
+    let posts = await api('GET', 'getPosts', params).then(res => res.json())
     let postsHtmlArray = posts.map(post => {
         return CARD_TEMPLATE
             .replace(/%ROUTE_NAME%/g, post.todo)
@@ -61,7 +64,7 @@ function setLikeState(id, state, count) {
     $(`#like-button-${id}`).html(likeButton)
 
     // APIを叩いてデータベースに反映
-    api('POST', { q: state ? 'likePost' : 'unlikePost', post_id: id})
+    api('POST', state ? 'likePost' : 'unlikePost', {post_id: id})
 }
 
 function getLikeButtonTemplate(id, state, count) {
@@ -83,5 +86,10 @@ function showDeleteModal(id) {
 }
 
 window.onload = () => {
+    $('#search-button').on('click', () => {
+        let query = $('#search-input').val()
+        renderingPosts(1, query)
+    })
+
     renderingPosts()
 }
