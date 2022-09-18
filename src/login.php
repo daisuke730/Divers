@@ -2,6 +2,12 @@
 session_start();
 include('functions.php');
 
+// 既にログインしている場合は、投稿一覧へリダイレクト
+if (is_loggedin()) {
+    header('Location:/posts');
+    exit;
+}
+
 function login() {
   // POSTリクエストでなければ終了
   if($_SERVER['REQUEST_METHOD'] !== 'POST') return;
@@ -33,7 +39,7 @@ function login() {
   $_SESSION['is_admin'] = $val['is_admin'];
   $_SESSION['username'] = $val['username'];
   $_SESSION['user_id'] = $val['id'];
-  header("Location:./posts");
+  header("Location:/posts");
   exit();
 }
 
