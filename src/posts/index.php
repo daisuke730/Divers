@@ -10,8 +10,6 @@ $bgColor = true;
 include("../components/head.php");
 ?>
 
-<!-- TODO: 詳細ページの実装 -->
-
 <div class="card-container">
   <div class="ui container">
     <h2>ルート一覧</h2>
@@ -47,5 +45,6 @@ include("../components/head.php");
 </div>
 
 <script src="/js/api.js"></script>
+<script src="/js/templates.js"></script>
 <script src="/js/index_page.js"></script>
 <?php include("../components/footer.php"); ?>
