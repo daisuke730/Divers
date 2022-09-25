@@ -11,7 +11,7 @@ async function api(method, action, params) {
             }
 
             let urlWithQuery = `${endpoint}?${querys.join('&')}`
-            return await fetch(urlWithQuery)
+            return await responseHandler(fetch(urlWithQuery))
         }
 
         case 'POST': {
@@ -20,14 +20,25 @@ async function api(method, action, params) {
                 formData.append(key, params[key])
             }
 
-            return await fetch(endpoint, {
+            return await responseHandler(fetch(endpoint, {
                 method: 'POST',
                 body: formData
-            })
+            }))
         }
 
         default: {
             throw new Error('Invalid method')
         }
+    }
+}
+
+async function responseHandler(response) {
+    try {
+        let res = await response
+        let json = await res.json()
+        if (json.error) throw new Error(json.error)
+        return json
+    } catch (e) {
+        throw new Error(e)
     }
 }
