@@ -43,6 +43,14 @@ function get_likes($post_id, $user_id) {
   ];
 }
 
+// エラーを返す
+function error($message) {
+  echo json_encode([
+    'error' => $message
+  ]);
+  exit();
+}
+
 // POSTリクエスト
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
   switch($_POST['q']) {
@@ -75,6 +83,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
       $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
       $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
       $stmt->execute();
+
+      echo json_encode([
+        'success' => true
+      ]);
+
       exit();
     }
 
@@ -92,13 +105,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
       $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
       $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
       $stmt->execute();
+
+      echo json_encode([
+        'success' => true
+      ]);
+
       exit();
     }
 
     // 無効なリクエスト
     default: {
-      http_response_code(400);
-      exit();
+      error('Invalid request');
     }
   }
 }
@@ -149,10 +166,42 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       exit();
     }
 
+    // 投稿を取得
+    case 'getPost': {
+      if (!isset($_GET['id'])) {
+        http_response_code(400);
+        exit();
+      }
+
+      $post_id = $_GET['id'];
+      $user_id = $_SESSION['user_id'];
+
+      // 投稿を取得
+      $sql = "SELECT * FROM todo_table WHERE id = :post_id";
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+      $stmt->execute();
+      $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      // 投稿が存在しなければエラーを返して終了
+      if (!$result) return error('投稿が存在しません');
+
+      // いいね数と自分がいいねしているかを取得
+      $likeState = get_likes($post_id, $user_id);
+
+      // リザルトと統合
+      $result = array_merge($result, $likeState);
+
+      // この投稿を編集できるかどうか
+      $result['can_edit'] = $result['user_id'] === $user_id || $_SESSION['is_admin'] === 1;
+
+      echo json_encode($result);
+      exit();
+    }
+
     // 無効なリクエスト
     default: {
-      http_response_code(400);
-      exit();
+      error('Invalid request');
     }
   }
 }
