@@ -10,6 +10,7 @@
 
 <body <?php if(isset($bgColor) && $bgColor) echo 'class="body-bg"'; ?>>
     <div class="ui secondary menu">
+        <img class="item logo-header" src="/img/logo.png" alt="logo">
         <a class="item" href="/">トップページ</a>
         <a class="item" href="/posts">投稿一覧</a>
         <div class="right menu">

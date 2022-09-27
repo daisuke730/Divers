@@ -89,3 +89,8 @@ h3 {
 .detail-timeview > span {
     margin-right: 12px;
 }
+
+.logo-header {
+    height: 36px;
+    padding: 0 !important;
+}
