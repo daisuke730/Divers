@@ -9,6 +9,7 @@ function connect_to_db() {
   try {
     return new PDO($dbn, $env["user"], $env["pass"]);
   } catch (PDOException $e) {
+    // TODO: エラー画面を表示する
     echo json_encode(["db error" => "{$e->getMessage()}"]);
     exit();
   }
@@ -33,5 +34,9 @@ function check_session_id() {
 
 function is_loggedin() {
   return isset($_SESSION["session_id"]) && $_SESSION["session_id"] == session_id();
+}
+
+function is_admin() {
+  return is_loggedin() && $_SESSION["is_admin"];
 }
 ?>
