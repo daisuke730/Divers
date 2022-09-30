@@ -21,6 +21,7 @@ $deploy = array(
 // env.php外から環境変数を取得する関数
 function get_env($key) {
   global $database;
+  global $deploy;
 
   $env_list = array(
     'database' => $database,
