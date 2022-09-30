@@ -31,6 +31,9 @@ function post() {
   // 入力チェック
   if (!isset($_POST['todo']) || $_POST['todo'] == '' || !isset($_POST['url']) || $_POST['url'] == '' || !isset($_POST['id'])) return '入力が不足している箇所があります。';
 
+  // URLがGoogleMapのURLかどうか
+  if (!preg_match('/^https:\/\/www.google\..*\/maps\/dir\//', $_POST['url'])) return 'このURLには対応していません。GoogleMapのURLを入力してください。';
+
   $id = (int)$_POST['id'];
   $todo = $_POST['todo'];
   $url = $_POST['url'];
