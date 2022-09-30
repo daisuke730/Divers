@@ -11,12 +11,20 @@ $database = array(
   'dbName' => 'dec_todo',
 );
 
+// デプロイ
+$deploy = array(
+  'key' => '',
+  'path' => '/var/www/html',
+  'branch' => 'release',
+);
+
 // env.php外から環境変数を取得する関数
 function get_env($key) {
   global $database;
 
   $env_list = array(
     'database' => $database,
+    'deploy' => $deploy,
   );
 
   return $env_list[$key];
