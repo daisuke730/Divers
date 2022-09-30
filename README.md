@@ -22,10 +22,10 @@ XAMPP Control Panelより、Apache, MySQLをStartします。
 ### データベースをインポートする (推奨)
 まずはじめに、任意のディレクトリにこのリポジトリをクローンします。
 ```bash
-$ git clone https://github.com/daisuke730/extreme.git
+$ git clone https://github.com/daisuke730/Divers.git
 ```
 クローン後、以下のディレクトリにデータベースファイルが存在することを確認してください。  
-`extreme/assets/dec_todo.sql`  
+`Divers/assets/dec_todo.sql`  
 phpMyAdminのトップページにある「インポート」タブから、上記のファイルを選択し、インポートします。  
 これでデータベースの作成は完了です。
 
