@@ -1,0 +1,13 @@
+name: Deploy (dev)
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call API endpoint
+        run: curl https://dev.diversmap.com/api/deploy?key=${{secrets.DEPLOY_KEY}}
