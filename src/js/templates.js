@@ -40,6 +40,20 @@ const PAGINATION_TEMPLATE = `
 <a class="item %CLASS%" onclick="%ACTION%">%NUMBER%</a>
 `
 
+const TABLE_TEMPLATE = `
+<tr>
+    <td>%ROUTE_ID%</td>
+    <td><a href="%DETAIL_URL%">%ROUTE_NAME%</a></td>
+    <td><a href="%ROUTE_URL%">リンク</a></td>
+    <td>%ROUTE_UPDATED_AT%</td>
+    <td>%USER_ID%</td>
+    <td class="right aligned">
+        <button class="ui button" onclick="%EDIT_ACTION%">編集</button>
+        <button class="ui button" onclick="%DELETE_ACTION%">削除</button>
+    </td>
+</tr>
+`
+
 function setLikeState(id, state, count, isStatic, useBigButton) {
     // いいね数を増減
     state ? count++ : count--
@@ -64,9 +78,28 @@ function getManageComponentTemplate(id) {
         .replace(/%DELETE_ACTION%/g, `showDeleteModal(${id})`)
 }
 
-function getPaginationTemplate(page, cssClass, text) {
+function getPaginationButton(page, cssClass, text) {
     return PAGINATION_TEMPLATE
         .replace(/%CLASS%/g, cssClass)
         .replace(/%ACTION%/g, cssClass === 'disabled' ? '' : `renderingPosts(${page})`)
         .replace(/%NUMBER%/g, text || page)
+}
+
+function getPaginationTemplate(page, count) {
+    let maxPage = Math.ceil(count / 10)
+    let paginationHtmlArray = []
+
+    if (maxPage > 1) {
+        paginationHtmlArray.push(getPaginationButton(1, page === 1 ? 'disabled' : '', '<<'))
+        paginationHtmlArray.push(getPaginationButton(Math.max(page - 1, 1), page === 1 ? 'disabled' : '', '<'))
+
+        for (let i = 1; i <= maxPage; i++) {
+            paginationHtmlArray.push(getPaginationButton(i, i === page ? 'active' : ''))
+        }
+
+        paginationHtmlArray.push(getPaginationButton(Math.min(page + 1, maxPage), page === maxPage ? 'disabled' : '', '>'))
+        paginationHtmlArray.push(getPaginationButton(maxPage, page === maxPage ? 'disabled' : '', '>>'))
+    }
+
+    return paginationHtmlArray.join('')
 }

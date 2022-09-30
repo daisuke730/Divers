@@ -17,22 +17,7 @@ async function renderingPosts(page = 1, search) {
     $('#route-list').html(postsHtmlArray.join(''))
 
     // ページネーションを作成
-    let maxPage = Math.ceil(res.count / 10)
-    let paginationHtmlArray = []
-
-    if (maxPage > 1) {
-        paginationHtmlArray.push(getPaginationTemplate(1, page === 1 ? 'disabled' : '', '<<'))
-        paginationHtmlArray.push(getPaginationTemplate(Math.max(page - 1, 1), page === 1 ? 'disabled' : '', '<'))
-
-        for (let i = 1; i <= maxPage; i++) {
-            paginationHtmlArray.push(getPaginationTemplate(i, i === page ? 'active' : ''))
-        }
-
-        paginationHtmlArray.push(getPaginationTemplate(Math.min(page + 1, maxPage), page === maxPage ? 'disabled' : '', '>'))
-        paginationHtmlArray.push(getPaginationTemplate(maxPage, page === maxPage ? 'disabled' : '', '>>'))
-    }
-
-    $('#pagination').html(paginationHtmlArray.join(''))
+    $('#pagination').html(getPaginationTemplate(res.count, page))
     $('#route-count').text(res.count ? `全${res.count}件中 ${1 + res.offset} ~ ${Math.min(10 + res.offset, res.count)}件目を表示中` : '投稿が見つかりませんでした。')
 }
 
