@@ -1,5 +1,5 @@
         <div class="footer">
-            <p class="centered-contents">2022 Extreme</p>
+            <p class="centered-contents">2022 DiversMap</p>
         </div>
 
         <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
