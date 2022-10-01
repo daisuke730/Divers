@@ -1,5 +1,5 @@
 const GOOGLE_MAP_URL_REGEX = /^https:\/\/www.google\..*\/maps\/dir\//
-const GOOGLE_SHORT_URL_REGEX = /https:\/\/.*\.goo\.gl\/.*[^\s]+/
+const GOOGLE_SHORT_URL_REGEX = /https:\/\/(.+[^.]\.)?goo\.gl\/.*[^\s]+/
 
 function isShortURL(url) {
     return !!url.match(GOOGLE_SHORT_URL_REGEX)
