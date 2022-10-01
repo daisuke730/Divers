@@ -25,7 +25,7 @@ async function renderingPosts(page = 1, search) {
 
 function showDeleteModal(id) {
     $('#deleteConfirmModal').modal('show')
-    $('#delete-confirm-button').attr('onclick', `location.href = 'delete.php?id=${id}'`)
+    $('#delete-confirm-button').attr('onclick', `location.href = '/posts/delete.php?id=${id}'`)
 }
 
 window.onload = () => {
