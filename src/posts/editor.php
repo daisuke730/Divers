@@ -36,7 +36,9 @@ function post() {
 
   $id = (int)$_POST['id'];
   $todo = $_POST['todo'];
-  $url = $_POST['url'];
+  
+  // 必要のないクエリを削除
+  $url = preg_replace('/\?.*/', '', $_POST['url']);
 
   // DB接続
   $pdo = connect_to_db();
@@ -106,7 +108,7 @@ include("../components/head.php");
       <div class="ui form">
         <div class="field">
           <label>URL</label>
-          <input id="url-input" type="url" name="url" placeholder="URL" value="<?= $is_editmode ? $record['url'] : '' ?>">
+          <input id="url-input" name="url" placeholder="URL" value="<?= $is_editmode ? $record['url'] : '' ?>">
         </div>
         <p>出発地と目的地はURLを貼り付けると自動的に入力されます。</p>
         <p>(この機能は開発途中のため、想定通りに動作しないことがあります。)</p>
@@ -132,6 +134,7 @@ include("../components/head.php");
   </div>
 </div>
 
+<script src="/js/api.js"></script>
 <script src="/js/url_parser.js"></script>
 <script src="/js/post_page.js"></script>
 <?php include("../components/footer.php"); ?>
