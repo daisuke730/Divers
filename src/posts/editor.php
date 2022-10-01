@@ -58,7 +58,7 @@ function post() {
     db_error_check($status, $stmt);
 
     $record = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($record['user_id'] !== $_SESSION['user_id'] && $_SESSION['is_admin'] !== 1) {
+    if ($record['user_id'] !== $_SESSION['user_id'] && !is_admin()) {
       return '投稿者以外は編集できません。';
     }
 
