@@ -146,7 +146,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
         $post = array_merge($post, $likeState);
 
         // この投稿を編集できるかどうか
-        $post['can_edit'] = $post['user_id'] === $_SESSION['user_id'] || $_SESSION['is_admin'] === 1;
+        $post['can_edit'] = $post['user_id'] === $_SESSION['user_id'] || is_admin();
       }
 
       // 投稿の件数を取得
@@ -193,9 +193,29 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       $result = array_merge($result, $likeState);
 
       // この投稿を編集できるかどうか
-      $result['can_edit'] = $result['user_id'] === $user_id || $_SESSION['is_admin'] === 1;
+      $result['can_edit'] = $result['user_id'] === $user_id || is_admin();
 
       echo json_encode($result);
+      exit();
+    }
+
+    // オリジナルURLを取得
+    case 'getOriginalUrl': {
+      if (!isset($_GET['url'])) {
+        http_response_code(400);
+        exit();
+      }
+
+      $url = $_GET['url'];
+
+      // URLを取得
+      $headers = get_headers($url, true);
+
+      echo json_encode([
+        'status' => $headers[0],
+        'url' => $headers['Location']
+      ]);
+      
       exit();
     }
 
