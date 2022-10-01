@@ -14,8 +14,20 @@ window.onload = function() {
     parseURL()
 }
 
-function parseURL() {
+async function parseURL() {
     let url = $('#url-input').val()
+
+    // もし短縮URLだった場合は展開する
+    if (isShortURL(url)) {
+        let params = { url: encodeURIComponent(getShortURL(url)) }
+        let res = await api('GET', 'getOriginalUrl', params)
+
+        if (res.url) {
+            $('#url-input').val(decodeURIComponent(res.url))
+            return parseURL()
+        }
+    }
+
     if (validateURL(url)) {
         let { startPointName, endPointName } = parseNameFromURL(url)
         $('#start-point-name').val(startPointName)
