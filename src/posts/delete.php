@@ -24,7 +24,7 @@ $status = $stmt->execute();
 db_error_check($status, $stmt);
 
 $record = $stmt->fetch(PDO::FETCH_ASSOC);
-if ($record['user_id'] !== $_SESSION['user_id'] && $_SESSION['is_admin'] !== 1) {
+if ($record['user_id'] !== $_SESSION['user_id'] && !is_admin()) {
     // ページの所有者とログインユーザーが異なる場合は一覧ページに戻る
     header("Location:./");
     exit();
