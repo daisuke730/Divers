@@ -134,3 +134,15 @@ nav .menu-group .menu-item a {
 .slick-arrow {
   display: none !important;
 }
+
+.responsive-container span {
+  padding: 12px;
+}
+
+@media(max-width: 768px) {
+  .responsive-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

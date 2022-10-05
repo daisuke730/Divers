@@ -100,3 +100,8 @@ h3 {
         width: initial !important;
     }
 }
+
+.article-container {
+    padding: 12px;
+    margin-bottom: 12px;
+}
