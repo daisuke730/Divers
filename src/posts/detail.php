@@ -49,9 +49,10 @@ include("../components/head.php");
             <span>最終更新: <span id="post-updated-at"></span></span>
         </div>
 
-        <a id="post-url" target="_blank" rel="noopener noreferrer">このルートを見る</a>
-
-        <div id="like-button"></div>
+        <div class="horizontal">
+            <a class="ui button teal" id="post-url" target="_blank" rel="noopener noreferrer">このルートを見る</a>
+            <div id="like-button"></div>
+        </div>
         <?php if ($error_message) echo '</div>' ?>
     </div>
 </div>

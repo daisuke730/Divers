@@ -105,3 +105,12 @@ h3 {
     padding: 12px;
     margin-bottom: 12px;
 }
+
+.horizontal {
+    display: flex;
+    flex-direction: row;
+}
+
+.horizontal > * {
+    margin-right: 12px !important;
+}
