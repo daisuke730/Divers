@@ -1,7 +1,6 @@
 <?php
 session_start();
 include('../functions.php');
-check_session_id();
 
 // IDが提供されているかどうかをチェック
 if (!isset($_GET['id'])) {
@@ -48,7 +47,6 @@ include("../components/head.php");
             <span>投稿: <span id="post-created-at"></span></span>
             <span>最終更新: <span id="post-updated-at"></span></span>
         </div>
-
         <div class="horizontal">
             <a class="ui button teal" id="post-url" target="_blank" rel="noopener noreferrer">このルートを見る</a>
             <div id="like-button"></div>

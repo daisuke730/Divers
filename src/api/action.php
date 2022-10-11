@@ -2,12 +2,6 @@
 session_start();
 include('../functions.php');
 
-// ログインしていない場合は弾く
-if(!is_loggedin()) {
-  http_response_code(401);
-  exit();
-}
-
 // クエリがセットされていない場合は弾く
 if(!isset($_GET['q']) && !isset($_POST['q'])) {
   http_response_code(400);
@@ -29,13 +23,20 @@ function get_likes($post_id, $user_id) {
   $likes = $stmt->fetch(PDO::FETCH_ASSOC);
 
   // いいね状態を取得
-  $sql = "SELECT COUNT(*) AS liked FROM likes WHERE post_id = :post_id AND user_id = :user_id";
-  $stmt = $pdo->prepare($sql);
-  $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
-  $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-  $status = $stmt->execute();
-  db_error_check($status, $stmt);
-  $liked = $stmt->fetch(PDO::FETCH_ASSOC);
+  // ユーザーIDが-1ならfalseを返す
+  if ($user_id == -1) {
+    $liked = [
+      'liked' => false
+    ];
+  } else {
+    $sql = "SELECT COUNT(*) AS liked FROM likes WHERE post_id = :post_id AND user_id = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+    $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $status = $stmt->execute();
+    db_error_check($status, $stmt);
+    $liked = $stmt->fetch(PDO::FETCH_ASSOC);
+  }
 
   return [
     'like_count' => $likes['likes'],
@@ -51,11 +52,27 @@ function error($message) {
   exit();
 }
 
+// ログイン検証
+function validate_login() {
+  // ログインしていない場合は弾く
+  if(!is_loggedin()) {
+    http_response_code(401);
+    exit();
+  }
+}
+
+// セッションからユーザーIDを取得
+function get_user_id() {
+  return is_loggedin() ? $_SESSION['user_id'] : -1;
+}
+
 // POSTリクエスト
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
   switch($_POST['q']) {
     // 投稿へのいいね
     case 'likePost': {
+      validate_login();
+
       if (!isset($_POST['post_id'])) {
         http_response_code(400);
         exit();
@@ -93,6 +110,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // 投稿へのいいねの取り消し
     case 'unlikePost': {
+      validate_login();
+
       if (!isset($_POST['post_id'])) {
         http_response_code(400);
         exit();
@@ -140,13 +159,13 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
 
       foreach($result as &$post) {
         // いいね数と自分がいいねしているかを取得
-        $likeState = get_likes($post['id'], $_SESSION['user_id']);
+        $likeState = get_likes($post['id'], get_user_id());
 
         // リザルトと統合
         $post = array_merge($post, $likeState);
 
         // この投稿を編集できるかどうか
-        $post['can_edit'] = $post['user_id'] === $_SESSION['user_id'] || is_admin();
+        $post['can_edit'] = $post['user_id'] === get_user_id() || is_admin();
       }
 
       // 投稿の件数を取得
@@ -174,7 +193,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       }
 
       $post_id = $_GET['id'];
-      $user_id = $_SESSION['user_id'];
+      $user_id = get_user_id();
 
       // 投稿を取得
       $sql = "SELECT * FROM todo_table WHERE id = :post_id";
@@ -201,6 +220,8 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     // オリジナルURLを取得
     case 'getOriginalUrl': {
+      validate_login();
+
       if (!isset($_GET['url'])) {
         http_response_code(400);
         exit();
