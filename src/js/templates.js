@@ -54,6 +54,21 @@ const TABLE_TEMPLATE = `
 </tr>
 `
 
+isLoggedIn = false
+api('GET', 'isLoggedIn').then(res => {
+    isLoggedIn = res.isLoggedIn
+})
+
+function noLoginError() {
+    $.toast({
+        class: 'warning',
+        title: `「いいね」をするにはログインしてください`,
+        displayTime: 5000,
+        position: 'bottom attached',
+        newestOnTop: true
+    })
+}
+
 function setLikeState(id, state, count, isStatic, useBigButton) {
     // いいね数を増減
     state ? count++ : count--
@@ -67,7 +82,7 @@ function setLikeState(id, state, count, isStatic, useBigButton) {
 
 function getLikeButtonTemplate(id, state, count, isStatic = false, useBigButton = false) {
     return (useBigButton ? LIKE_BUTTON_BIG_TEMPLATE : LIKE_BUTTON_TEMPLATE)
-        .replace(/%LIKE_STATE_TOGGLE%/g, `setLikeState(${id}, ${!state}, ${count}, ${isStatic}, ${useBigButton})`)
+        .replace(/%LIKE_STATE_TOGGLE%/g, isLoggedIn ? `setLikeState(${id}, ${!state}, ${count}, ${isStatic}, ${useBigButton})` : 'noLoginError()')
         .replace(/%LIKE_COLOR%/g, state ? 'red' : '')
         .replace(/%LIKE_COUNT%/g, count)
 }
