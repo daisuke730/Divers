@@ -105,15 +105,15 @@ function getPaginationTemplate(page, count) {
     let paginationHtmlArray = []
 
     if (maxPage >= 1) {
-        paginationHtmlArray.push(getPaginationButton(1, page === 1 ? 'disabled' : '', '<<'))
-        paginationHtmlArray.push(getPaginationButton(Math.max(page - 1, 1), page === 1 ? 'disabled' : '', '<'))
+        paginationHtmlArray.push(getPaginationButton(1, page === 1 ? 'disabled' : '', '<i class="angle double left icon"></i>'))
+        paginationHtmlArray.push(getPaginationButton(Math.max(page - 1, 1), page === 1 ? 'disabled' : '', '<i class="angle left icon"></i>'))
 
         for (let i = 1; i <= maxPage; i++) {
             paginationHtmlArray.push(getPaginationButton(i, i === page ? 'active' : ''))
         }
 
-        paginationHtmlArray.push(getPaginationButton(Math.min(page + 1, maxPage), page === maxPage ? 'disabled' : '', '>'))
-        paginationHtmlArray.push(getPaginationButton(maxPage, page === maxPage ? 'disabled' : '', '>>'))
+        paginationHtmlArray.push(getPaginationButton(Math.min(page + 1, maxPage), page === maxPage ? 'disabled' : '', '<i class="angle right icon"></i>'))
+        paginationHtmlArray.push(getPaginationButton(maxPage, page === maxPage ? 'disabled' : '', '<i class="angle double right icon"></i>'))
     }
 
     return paginationHtmlArray.join('')
