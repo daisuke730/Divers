@@ -118,3 +118,7 @@ h3 {
 .ui.pagination.menu {
     border: none;
 }
+
+.ui.pagination.menu i {
+    margin: 0 !important;
+}
