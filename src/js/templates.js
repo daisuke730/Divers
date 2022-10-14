@@ -96,7 +96,7 @@ function getManageComponentTemplate(id) {
 function getPaginationButton(page, cssClass, text) {
     return PAGINATION_TEMPLATE
         .replace(/%CLASS%/g, cssClass)
-        .replace(/%ACTION%/g, cssClass === 'disabled' ? '' : `renderingPosts(${page})`)
+        .replace(/%ACTION%/g, (cssClass === 'disabled' || cssClass === 'active') ? '' : `renderingPosts(${page})`)
         .replace(/%NUMBER%/g, text || page)
 }
 
@@ -104,7 +104,7 @@ function getPaginationTemplate(page, count) {
     let maxPage = Math.ceil(count / 10)
     let paginationHtmlArray = []
 
-    if (maxPage > 1) {
+    if (maxPage >= 1) {
         paginationHtmlArray.push(getPaginationButton(1, page === 1 ? 'disabled' : '', '<<'))
         paginationHtmlArray.push(getPaginationButton(Math.max(page - 1, 1), page === 1 ? 'disabled' : '', '<'))
 
