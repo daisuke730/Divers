@@ -1,6 +1,6 @@
 const endpoint = '/api/action.php'
 
-async function api(method, action, params) {
+async function api(method, action, params = {}) {
     params['q'] = action
 
     switch(method) {
