@@ -51,6 +51,7 @@ include("../components/head.php");
             <a class="ui button teal" id="post-url" target="_blank" rel="noopener noreferrer">このルートを見る</a>
             <div id="like-button"></div>
         </div>
+        <button class="ui button" onclick="history.back()"><i class="arrow left icon"></i>戻る</button>
         <?php if ($error_message) echo '</div>' ?>
     </div>
 </div>
