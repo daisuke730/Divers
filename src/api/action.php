@@ -240,6 +240,14 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       exit();
     }
 
+    // ログインしているかどうかを返す
+    case 'isLoggedIn': {
+      echo json_encode([
+        'isLoggedIn' => isset($_SESSION['user_id'])
+      ]);
+      exit();
+    }
+
     // 無効なリクエスト
     default: {
       error('Invalid request');
