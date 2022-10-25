@@ -57,6 +57,7 @@ function validate_login() {
   // ログインしていない場合は弾く
   if(!is_loggedin()) {
     http_response_code(401);
+    error('ログインしてください');
     exit();
   }
 }
@@ -131,6 +132,75 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       exit();
     }
+
+    // ルート投稿
+    case 'postRoute': {
+      validate_login();
+
+      if (!queryCheck(['id', 'url', 'departure', 'destination'])) return error('入力が不足している箇所があります。');
+
+      // URLがGoogleMapのURLかどうか
+      if (!preg_match('/^https:\/\/www.google\..*\/maps\/dir\//', $_POST['url'])) return error('このURLには対応していません。GoogleMapのURLを入力してください。');
+
+      $id = (int)$_POST['id'];
+      $name = $_POST['departure'] . ' から ' . $_POST['destination'] . ' まで';
+      $description = isset($_POST['description']) ? $_POST['description'] : '';
+      
+      // 必要のないクエリを削除
+      $url = preg_replace('/\?.*/', '', $_POST['url']);
+
+      // 新規投稿か編集かで処理を分ける
+      if($id === -1) {
+        // 新規投稿
+        $sql = 'INSERT INTO posts(id, name, departure, destination, url, description, created_at, updated_at, user_id) VALUES (NULL, :name, :departure, :destination, :url, :description, now(), now(), :user_id)';
+      } else {
+        // 編集
+
+        // 投稿者と編集しようとしている人が同一か (または管理者か) 判別
+        $sql = 'SELECT * FROM posts WHERE id=:id';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $status = $stmt->execute();
+
+        // エラーチェック
+        db_error_check($status, $stmt);
+
+        $record = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($record['user_id'] !== $_SESSION['user_id'] && !is_admin()) {
+          return error('投稿者以外は編集できません。');
+        }
+
+        $sql = 'UPDATE posts SET name=:name, departure=:departure, destination=:destination, description=:description, url=:url, updated_at=now() WHERE id=:id';
+      }
+
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+      $stmt->bindValue(':url', $url, PDO::PARAM_STR);
+      $stmt->bindValue(':description', $description, PDO::PARAM_STR);
+      $stmt->bindValue(':departure', $_POST['departure'], PDO::PARAM_STR);
+      $stmt->bindValue(':destination', $_POST['destination'], PDO::PARAM_STR);
+
+      // 新規投稿の場合はuser_idをバインド
+      if($id === -1) {
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+      }
+
+      // 編集の場合はIDをバインド
+      if($id !== -1) {
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+      }
+
+      $status = $stmt->execute();
+
+      // エラーチェック
+      db_error_check($status, $stmt);
+
+      echo json_encode([
+        'success' => true
+      ]);
+      exit();
+    }
+
 
     // 無効なリクエスト
     default: {
