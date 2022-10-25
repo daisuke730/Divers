@@ -14,7 +14,7 @@ function details() {
     $pdo = connect_to_db();
 
     // 投稿を取得
-    $sql = 'SELECT * FROM todo_table WHERE id=:id';
+    $sql = 'SELECT * FROM posts WHERE id=:id';
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':id', $id, PDO::PARAM_INT);
     $status = $stmt->execute();

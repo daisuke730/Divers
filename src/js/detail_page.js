@@ -8,7 +8,7 @@ async function getPostData() {
     let res = await api('GET', 'getPost', params)
     console.log(res)
 
-    $('#post-title').text(res.todo)
+    $('#post-title').text(res.name)
     $('#post-created-at').text(res.created_at)
     $('#post-updated-at').text(res.updated_at)
     $('#post-url').attr('href', res.url)

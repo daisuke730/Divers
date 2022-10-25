@@ -20,7 +20,7 @@ function login() {
   $password = $_POST['password'];
 
   $pdo = connect_to_db();
-  $sql = 'SELECT * FROM users_table WHERE username=:username AND password=:password AND is_deleted=0';
+  $sql = 'SELECT * FROM users WHERE username=:username AND password=:password AND is_deleted=0';
   $stmt = $pdo->prepare($sql);
   $stmt->bindValue(':username', $username, PDO::PARAM_STR);
   $stmt->bindValue(':password', $password, PDO::PARAM_STR);

@@ -149,7 +149,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       $keyword = isset($_GET['search']) ? $_GET['search'] : '';
 
       // 投稿を取得
-      $sql = "SELECT * FROM todo_table WHERE todo LIKE :keyword ORDER BY updated_at DESC LIMIT 10 OFFSET :offset";
+      $sql = "SELECT * FROM posts WHERE name LIKE :keyword ORDER BY updated_at DESC LIMIT 10 OFFSET :offset";
       $stmt = $pdo->prepare($sql);
       $offset = isset($_GET['page']) ? (max((int)$_GET['page'], 1) - 1) * 10 : 0;
       $stmt->bindValue(':keyword', "%{$keyword}%", PDO::PARAM_STR);
@@ -169,7 +169,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       }
 
       // 投稿の件数を取得
-      $sql = "SELECT COUNT(*) AS count FROM todo_table WHERE todo LIKE :keyword";
+      $sql = "SELECT COUNT(*) AS count FROM posts WHERE name LIKE :keyword";
       $stmt = $pdo->prepare($sql);
       $stmt->bindValue(':keyword', "%{$keyword}%", PDO::PARAM_STR);
       $stmt->execute();
@@ -196,7 +196,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       $user_id = get_user_id();
 
       // 投稿を取得
-      $sql = "SELECT * FROM todo_table WHERE id = :post_id";
+      $sql = "SELECT * FROM posts WHERE id = :post_id";
       $stmt = $pdo->prepare($sql);
       $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
       $stmt->execute();

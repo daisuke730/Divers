@@ -25,7 +25,7 @@ XAMPP Control Panelより、Apache, MySQLをStartします。
 $ git clone https://github.com/daisuke730/Divers.git
 ```
 クローン後、以下のディレクトリにデータベースファイルが存在することを確認してください。  
-`Divers/assets/dec_todo.sql`  
+`Divers/assets/database.sql`  
 phpMyAdminのトップページにある「インポート」タブから、上記のファイルを選択し、インポートします。  
 これでデータベースの作成は完了です。
 
@@ -34,19 +34,22 @@ phpMyAdminのトップページにある「インポート」タブから、上�
 > データベースをインポートした場合は以下の操作は必要ありません
 
 1. phpMyAdminのトップページにある左のカラムから「新規作成」をクリックします。
-2. データベース名に「`dec_todo`」と入力し、「`utf8mb4_general_ci`」を「`utf8mb4_unicode_ci`」に変更します。
-3. 画面左のカラムに「dec_todo」が表示されるのでクリックします。
-4. 「新しいテーブルを作成」をクリックし、テーブル名を「`todo_table`」に、カラム数を「`6`」に指定してから作成ボタンを入力します。
+2. データベース名に「`diversmap`」と入力し、「`utf8mb4_general_ci`」を「`utf8mb4_unicode_ci`」に変更します。
+3. 画面左のカラムに「diversmap」が表示されるのでクリックします。
+4. 「新しいテーブルを作成」をクリックし、テーブル名を「`posts`」に、カラム数を「`9`」に指定してから作成ボタンを入力します。
 5. 以下に従ってテーブルを作成します。  
    |名前|タイプ|長さ|備考|
    |----|----|----|----|
    |id|INT|12|`A_I`にチェックを付け、インデックスを`PRIMARY`に設定|
-   |todo|VARCHAR|128||
+   |name|VARCHAR|128||
+   |departure|VARCHAR|32||
+   |destination|VARCHAR|32||
    |url|VARCHAR|4096||
+   |description|VARCHAR|1024||
    |created_at|DATETIME|||
    |updated_at|DATETIME|||
    |user_id|int|12||
-6. 「新しいテーブルを作成」をクリックし、テーブル名を「`users_table`」に、カラム数を「`7`」に指定してから作成ボタンを入力します。
+6. 「新しいテーブルを作成」をクリックし、テーブル名を「`users`」に、カラム数を「`7`」に指定してから作成ボタンを入力します。
 7. 以下に従ってテーブルを作成します。  
    |名前|タイプ|長さ|備考|
    |----|----|----|----|

@@ -13,7 +13,7 @@ function register() {
   $password = $_POST["password"];
 
   $pdo = connect_to_db();
-  $sql = 'SELECT COUNT(*) FROM users_table WHERE username=:username';
+  $sql = 'SELECT COUNT(*) FROM users WHERE username=:username';
   $stmt = $pdo->prepare($sql);
   $stmt->bindValue(':username', $username, PDO::PARAM_STR);
   $status = $stmt->execute();
@@ -24,7 +24,7 @@ function register() {
   // すでに登録されていた場合
   if ($stmt->fetchColumn() > 0) return 'そのユーザー名は使用されています。';
 
-  $sql = 'INSERT INTO users_table(id, username, password, is_admin, is_deleted, created_at, updated_at) VALUES(NULL, :username, :password, 0, 0, sysdate(), sysdate())';
+  $sql = 'INSERT INTO users(id, username, password, is_admin, is_deleted, created_at, updated_at) VALUES(NULL, :username, :password, 0, 0, sysdate(), sysdate())';
   $stmt = $pdo->prepare($sql);
   $stmt->bindValue(':username', $username, PDO::PARAM_STR);
   $stmt->bindValue(':password', $password, PDO::PARAM_STR);

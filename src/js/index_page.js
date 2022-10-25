@@ -5,7 +5,7 @@ async function renderingPosts(page = 1, search) {
     let res = await api('GET', 'getPosts', params)
     let postsHtmlArray = res.posts.map(post => {
         return CARD_TEMPLATE
-            .replace(/%ROUTE_NAME%/g, post.todo)
+            .replace(/%ROUTE_NAME%/g, post.name)
             .replace(/%ROUTE_ID%/g, post.id)
             .replace(/%ROUTE_CREATED_AT%/g, post.created_at)
             .replace(/%ROUTE_DESCRIPTION%/g, 'ここに説明文が入ります')

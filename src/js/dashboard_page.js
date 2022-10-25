@@ -6,7 +6,7 @@ async function renderingPosts(page = 1, search) {
     let postsHtmlArray = res.posts.map(post => {
         return TABLE_TEMPLATE
             .replace(/%ROUTE_ID%/g, post.id)
-            .replace(/%ROUTE_NAME%/g, post.todo)
+            .replace(/%ROUTE_NAME%/g, post.name)
             .replace(/%ROUTE_URL%/g, post.url)
             .replace(/%DETAIL_URL%/g, `/posts/detail.php?id=${post.id}`)
             .replace(/%ROUTE_UPDATED_AT%/g, post.updated_at)

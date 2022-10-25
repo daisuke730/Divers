@@ -15,7 +15,7 @@ $id = $_GET['id'];
 $pdo = connect_to_db();
 
 // ページの所有者を確認
-$sql = 'SELECT * FROM todo_table WHERE id=:id';
+$sql = 'SELECT * FROM posts WHERE id=:id';
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 $status = $stmt->execute();
@@ -31,7 +31,7 @@ if ($record['user_id'] !== $_SESSION['user_id'] && !is_admin()) {
 }
 
 // データ削除
-$sql = 'DELETE FROM todo_table WHERE id=:id';
+$sql = 'DELETE FROM posts WHERE id=:id';
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':id', $id, PDO::PARAM_STR);
 $status = $stmt->execute();

@@ -8,7 +8,7 @@ $database = array(
   'port' => 3306,
   'user' => 'root',
   'pass' => '',
-  'dbName' => 'dec_todo',
+  'dbName' => 'diversmap',
 );
 
 // デプロイ
