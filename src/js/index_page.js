@@ -8,7 +8,7 @@ async function renderingPosts(page = 1, search) {
             .replace(/%ROUTE_NAME%/g, post.name)
             .replace(/%ROUTE_ID%/g, post.id)
             .replace(/%ROUTE_CREATED_AT%/g, post.created_at)
-            .replace(/%ROUTE_DESCRIPTION%/g, 'ここに説明文が入ります')
+            .replace(/%ROUTE_DESCRIPTION%/g, post.description)
             .replace(/%BUTTON_COMPONENT%/g, getLikeButtonTemplate(post.id, post.is_liked, post.like_count))
             .replace(/%MANAGE_COMPONENT%/g, post.can_edit ? getManageComponentTemplate(post.id) : '')
     })
