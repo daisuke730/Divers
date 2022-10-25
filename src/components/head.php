@@ -18,7 +18,7 @@
 </head>
 
 <body <?php if(isset($bgColor) && $bgColor) echo 'class="body-bg"'; ?>>
-    <div class="ui secondary menu stackable">
+    <div class="ui secondary menu stackable header-sticky">
         <img class="item header logo-header" src="/img/logo.png" alt="logo">
         <a class="item" href="/">トップページ</a>
         <a class="item" href="/posts">投稿一覧</a>
