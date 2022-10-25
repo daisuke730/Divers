@@ -37,7 +37,7 @@ include("../components/head.php");
         </div>
         <div class="field">
           <label>ルートの説明 (任意)</label>
-          <textarea rows="3" placeholder="このルートに関する説明を入力してください。説明はルート一覧および詳細ページで表示されます。"></textarea>
+          <textarea id="description" rows="3" placeholder="このルートに関する説明を入力してください。説明はルート一覧および詳細ページで表示されます。"></textarea>
         </div>
         <button id="submit-button" class="ui fluid large teal submit button" type="submit">投稿</button>
       </div>
