@@ -1,6 +1,6 @@
 const endpoint = '/api/action.php'
 
-async function api(method, action, params = {}) {
+async function api(method, action, params = {}, errorHandling = true) {
     params['q'] = action
 
     switch(method) {
@@ -11,7 +11,7 @@ async function api(method, action, params = {}) {
             }
 
             let urlWithQuery = `${endpoint}?${querys.join('&')}`
-            return await responseHandler(fetch(urlWithQuery))
+            return await responseHandler(fetch(urlWithQuery), errorHandling)
         }
 
         case 'POST': {
@@ -23,7 +23,7 @@ async function api(method, action, params = {}) {
             return await responseHandler(fetch(endpoint, {
                 method: 'POST',
                 body: formData
-            }))
+            }), errorHandling)
         }
 
         default: {
@@ -32,11 +32,11 @@ async function api(method, action, params = {}) {
     }
 }
 
-async function responseHandler(response) {
+async function responseHandler(response, errorHandling) {
     try {
         let res = await response
         let json = await res.json()
-        if (json.error) throw new Error(json.error)
+        if (json.error && errorHandling) throw new Error(json.error)
         return json
     } catch (e) {
         throw new Error(e)
