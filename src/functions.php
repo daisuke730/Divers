@@ -39,4 +39,14 @@ function is_loggedin() {
 function is_admin() {
   return is_loggedin() && $_SESSION["is_admin"];
 }
+
+function queryCheck($params) {
+  foreach($params as $param) {
+    // 不足しているクエリがあればfalseを返す
+    if(!isset($_POST[$param]) || $_POST[$param] == '') return false;
+  }
+
+  // 全てのクエリがあればtrueを返す
+  return true;
+}
 ?>
