@@ -23,7 +23,6 @@ async function parseURL() {
         let { startPointName, endPointName } = parseNameFromURL(url)
         $('#departure').val(startPointName)
         $('#destination').val(endPointName)
-        regenerateRouteName()
     }
 }
 
