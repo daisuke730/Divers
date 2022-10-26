@@ -10,6 +10,13 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `diversmap` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `diversmap`;
 
+CREATE TABLE `images` (
+  `id` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `poly_hash` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE `likes` (
   `post_id` int(12) NOT NULL,
   `user_id` int(12) NOT NULL,
@@ -21,7 +28,12 @@ CREATE TABLE `posts` (
   `name` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
   `departure` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `destination` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `url` varchar(4096) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `departure_location` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `destination_location` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `waypoints` varchar(1024) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `distance` int(11) NOT NULL,
+  `duration` int(11) NOT NULL,
+  `polyline` varchar(8192) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(1024) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -39,20 +51,8 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-ALTER TABLE `posts`
+ALTER TABLE `images`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
-
 ALTER TABLE `posts`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `users`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+  ADD PRIMARY KEY (`id`);

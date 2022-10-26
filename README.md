@@ -36,7 +36,7 @@ phpMyAdminのトップページにある「インポート」タブから、上�
 1. phpMyAdminのトップページにある左のカラムから「新規作成」をクリックします。
 2. データベース名に「`diversmap`」と入力し、「`utf8mb4_general_ci`」を「`utf8mb4_unicode_ci`」に変更します。
 3. 画面左のカラムに「diversmap」が表示されるのでクリックします。
-4. 「新しいテーブルを作成」をクリックし、テーブル名を「`posts`」に、カラム数を「`9`」に指定してから作成ボタンを入力します。
+4. 「新しいテーブルを作成」をクリックし、テーブル名を「`posts`」に、カラム数を「`14`」に指定してから作成ボタンを入力します。
 5. 以下に従ってテーブルを作成します。  
    |名前|タイプ|長さ|備考|
    |----|----|----|----|
@@ -44,7 +44,12 @@ phpMyAdminのトップページにある「インポート」タブから、上�
    |name|VARCHAR|128||
    |departure|VARCHAR|32||
    |destination|VARCHAR|32||
-   |url|VARCHAR|4096||
+   |departure_location|VARCHAR|32||
+   |destination_location|VARCHAR|32||
+   |waypoints|VARCHAR|1024||
+   |distance|int|11||
+   |duration|int|11||
+   |polyline|VARCHAR|8192||
    |description|VARCHAR|1024||
    |created_at|DATETIME|||
    |updated_at|DATETIME|||
@@ -67,3 +72,11 @@ phpMyAdminのトップページにある「インポート」タブから、上�
    |post_id|INT|12||
    |user_id|INT|12||
    |created_at|DATETIME|||
+10. 「新しいテーブルを作成」をクリックし、テーブル名を「`images`」に、カラム数を「`4`」に指定してから作成ボタンを入力します。
+11. 以下に従ってテーブルを作成します。  
+   |名前|タイプ|長さ|備考|
+   |----|----|----|----|
+   |id|INT|12|`A_I`にチェックを付け、インデックスを`PRIMARY`に設定|
+   |post_id|INT|12||
+   |poly_hash|VARCHAR|256||
+   |updated_at|DATETIME|||
