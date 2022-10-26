@@ -4,6 +4,9 @@ const CARD_TEMPLATE = `
         <div class="header">
             <a href="detail.php?id=%ROUTE_ID%">%ROUTE_NAME%</a>
         </div>
+        <div class="image">
+            <img src="%THUMBNAIL_URL%">
+        </div>
         <div class="meta">
             <span class="date">%ROUTE_CREATED_AT%</span>
         </div>
