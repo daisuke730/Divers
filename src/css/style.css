@@ -95,12 +95,6 @@ h3 {
     padding: 0 !important;
 }
 
-@media only screen and (max-width: 767px) {
-    .ui.stackable.menu img.item {
-        width: initial !important;
-    }
-}
-
 .article-container {
     padding: 12px;
     margin-bottom: 12px;
@@ -131,4 +125,30 @@ h3 {
 
 .ui .card .image img {
     width: 100%;
+}
+
+.flex-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.flex-box > .field {
+    flex-grow: 1;
+    margin: 0 !important;
+}
+
+.map {
+    height: 60vh;
+}
+
+@media only screen and (max-width: 767px) {
+    .ui.stackable.menu img.item {
+        width: initial !important;
+    }
+
+    .flex-box {
+        flex-direction: column;
+    }
 }
