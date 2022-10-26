@@ -15,9 +15,10 @@ function validateURL(url) {
 
 function parseNameFromURL(url) {
     let arr = url.replace(GOOGLE_MAP_URL_REGEX, '').split('/')
+    let destinationIndex = arr.findIndex((element) => /@([0-9.]+),([0-9.]+),([0-9.]+z)/.test(element)) - 1
     return {
         startPointName: getDestName(arr[0]),
-        endPointName: getDestName(arr[1])
+        endPointName: getDestName(arr[Math.max(destinationIndex, 1)])
     }
 }
 
