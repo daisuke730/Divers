@@ -137,22 +137,36 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     case 'postRoute': {
       validate_login();
 
-      if (!queryCheck(['id', 'url', 'departure', 'destination'])) return error('入力が不足している箇所があります。');
-
-      // URLがGoogleMapのURLかどうか
-      if (!preg_match('/^https:\/\/www.google\..*\/maps\/dir\//', $_POST['url'])) return error('このURLには対応していません。GoogleMapのURLを入力してください。');
+      if (!queryCheck(['id', 'departure', 'destination', 'departure_location', 'destination_location', 'waypoints'])) return error('必要な情報が欠けているようです。再度お試しください。');
 
       $id = (int)$_POST['id'];
       $name = $_POST['departure'] . ' から ' . $_POST['destination'] . ' まで';
       $description = isset($_POST['description']) ? $_POST['description'] : '';
-      
-      // 必要のないクエリを削除
-      $url = preg_replace('/\?.*/', '', $_POST['url']);
+
+      $GOOGLE_MAP_DIRECTION_API = 'https://maps.googleapis.com/maps/api/directions/json';
+
+      // APIパラメーター
+      $direction_api_params = [];
+      $direction_api_params['mode'] = 'walking';
+      $direction_api_params['language'] = 'ja';
+      $direction_api_params['origin'] = $_POST['departure_location'];
+      $direction_api_params['destination'] = $_POST['destination_location'];
+      $direction_api_params['waypoints'] = implode('|', json_decode($_POST['waypoints']));
+      $direction_api_params['key'] = get_env('api-key')['google-api-server'];
+
+      $direction_api_query = implode('&', array_map(function($key, $value) { return $key . '=' . $value; }, array_keys($direction_api_params), $direction_api_params));
+
+      // APIリクエスト
+      $response = file_get_contents($GOOGLE_MAP_DIRECTION_API . '?' . $direction_api_query);
+      $direction_result = json_decode($response, true);
+
+      // エラーがあった場合はエラーを返す
+      if ($direction_result['status'] !== 'OK') error('指定されたルートをサーバー側で正しく処理できませんでした。時間をおいて再度お試しください。');
 
       // 新規投稿か編集かで処理を分ける
       if($id === -1) {
         // 新規投稿
-        $sql = 'INSERT INTO posts(id, name, departure, destination, url, description, created_at, updated_at, user_id) VALUES (NULL, :name, :departure, :destination, :url, :description, now(), now(), :user_id)';
+        $sql = 'INSERT INTO posts (id, name, departure, destination, departure_location, destination_location, waypoints, distance, duration, polyline, description, created_at, updated_at, user_id) VALUES (null, :name, :departure, :destination, :departure_location, :destination_location, :waypoints, :distance, :duration, :polyline, :description, now(), now(), :user_id)';
       } else {
         // 編集
 
@@ -170,15 +184,20 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
           return error('投稿者以外は編集できません。');
         }
 
-        $sql = 'UPDATE posts SET name=:name, departure=:departure, destination=:destination, description=:description, url=:url, updated_at=now() WHERE id=:id';
+        $sql = 'UPDATE posts SET name=:name, departure=:departure, destination=:destination, departure_location=:departure_location, destination_location=:destination_location, waypoints=:waypoints, distance=:distance, duration=:duration, polyline=:polyline, description=:description, updated_at=now() WHERE id=:id';
       }
 
       $stmt = $pdo->prepare($sql);
       $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-      $stmt->bindValue(':url', $url, PDO::PARAM_STR);
-      $stmt->bindValue(':description', $description, PDO::PARAM_STR);
       $stmt->bindValue(':departure', $_POST['departure'], PDO::PARAM_STR);
       $stmt->bindValue(':destination', $_POST['destination'], PDO::PARAM_STR);
+      $stmt->bindValue(':departure_location', $_POST['departure_location'], PDO::PARAM_STR);
+      $stmt->bindValue(':destination_location', $_POST['destination_location'], PDO::PARAM_STR);
+      $stmt->bindValue(':waypoints', $_POST['waypoints'], PDO::PARAM_STR);
+      $stmt->bindValue(':distance', $direction_result['routes'][0]['legs'][0]['distance']['value'], PDO::PARAM_INT);
+      $stmt->bindValue(':duration', $direction_result['routes'][0]['legs'][0]['duration']['value'], PDO::PARAM_INT);
+      $stmt->bindValue(':polyline', $direction_result['routes'][0]['overview_polyline']['points'], PDO::PARAM_STR);
+      $stmt->bindValue(':description', $description, PDO::PARAM_STR);
 
       // 新規投稿の場合はuser_idをバインド
       if($id === -1) {
