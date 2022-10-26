@@ -1,0 +1,13 @@
+header {
+  background-color: #C0C0C0;
+}
+
+header .title {
+  text-align: left;
+}
+
+.container img {
+  max-width: 100%;
+  max-height: 50vh;
+  margin-bottom: 12px;
+}

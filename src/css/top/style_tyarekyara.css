@@ -1,0 +1,148 @@
+header {
+  background-color: #ccc;
+  height: 55px;
+}
+
+header .title {
+  text-align: center;
+}
+
+header img {
+  width: 240px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 45px;
+}
+
+.nav {
+  position: relative;
+  z-index: 5;
+}
+
+.nav .menu-group {
+  position: absolute;
+  right: 15px;
+  display: flex;
+  background-color: hwb(115 86% 10%);
+}
+
+nav .menu-group .menu-item a {
+  color: #fff;
+}
+
+.slider_wrap {
+  position: relative;
+}
+
+.slider {
+  position: relative;
+  width: 100% !important;
+  padding: 0;
+  z-index: 1;
+}
+
+.slider .slick-track .slick-slide {
+  text-align: center;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.slider .slick-track .slick-slide img {
+  width: 100%;
+  margin: 0 auto;
+  height: auto;
+}
+
+.slider .slick-slide {
+  margin: 0 10px;
+}
+
+.slider .slick-dots {
+  display: none !important;
+}
+
+.thumbnail {
+  position: absolute !important;
+  width: 100%;
+  margin: 0 auto;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.thumbnail .slick-list {
+  transform: unset !important;
+}
+
+.thumbnail .slick-current {
+  opacity: 1;
+}
+
+.thumbnail .slick-track {
+  width: 100% !important;
+  transform: unset !important;
+  display: flex !important;
+}
+
+.thumbnail-img {
+  opacity: 0.3;
+  transition: opacity .3s linear;
+  width: calc(100% / 3) !important;
+}
+
+.thumbnail-img img {
+  width: 100%;
+  height: 100px;
+  border-radius: 50%;
+  width: 100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.thumbnail .slick-current {
+  opacity: 1;
+}
+
+.overlay {
+  position: relative;
+}
+
+.overlay .contents {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1;
+}
+
+.full-img {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-position: center;
+  background-size: cover;
+  filter: blur(5px);
+}
+
+.overlay p, .overlay span {
+  color: #fff;
+  text-shadow: rgba(0, 0, 0, 0.5) 0 0 5px;
+}
+
+.slick-arrow {
+  display: none !important;
+}
+
+.responsive-container span {
+  padding: 12px;
+}
+
+@media(max-width: 768px) {
+  .responsive-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
