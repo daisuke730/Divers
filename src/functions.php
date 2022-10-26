@@ -5,7 +5,7 @@ function connect_to_db() {
   // データベースの接続に関する設定は env.php から編集してください
 
   $env = get_env("database");
-  $dbn="mysql:dbname={$env["dbName"]};charset=utf8;port={$env["port"]};host={$env["host"]}";
+  $dbn="mysql:dbname={$env["db-name"]};charset=utf8;port={$env["port"]};host={$env["host"]}";
   try {
     return new PDO($dbn, $env["user"], $env["pass"]);
   } catch (PDOException $e) {

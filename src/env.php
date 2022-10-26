@@ -8,7 +8,13 @@ $database = array(
   'port' => 3306,
   'user' => 'root',
   'pass' => '',
-  'dbName' => 'diversmap',
+  'db-name' => 'diversmap',
+);
+
+// APIKeys
+$keys = array(
+  'google-api-server' => '',
+  'google-api-client' => '',
 );
 
 // デプロイ
@@ -22,10 +28,12 @@ $deploy = array(
 function get_env($key) {
   global $database;
   global $deploy;
+  global $keys;
 
   $env_list = array(
     'database' => $database,
     'deploy' => $deploy,
+    'api-key' => $keys,
   );
 
   return $env_list[$key];
