@@ -2,12 +2,6 @@
 session_start();
 include('../functions.php');
 
-// ログインチェック
-if(!is_loggedin()) {
-  http_response_code(401);
-  exit();
-}
-
 // IDがセットされていない場合は弾く
 if(!isset($_GET['id'])) {
   http_response_code(400);
