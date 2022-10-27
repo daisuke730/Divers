@@ -19,3 +19,11 @@ function durationBeautify(duration) {
         return '1分未満'
     }
 }
+
+function dateBeautify(strDate) {
+    let date = new Date(strDate)
+    let year = date.getFullYear()
+    let month = date.getMonth() + 1
+    let day = date.getDate()
+    return `${year}年${month}月${day}日`
+}
