@@ -155,6 +155,10 @@
     margin-top: 0 !important;
 }
 
+.card .image {
+    margin: 8px 0;
+}
+
 h2 {
     color: #434C5E
 }
