@@ -23,6 +23,7 @@ include("../components/head.php");
         <div id="detail" class="route-detail">
             <h3 id="post-title"></h3>
             <img id="route-image" class="detail-image" src="">
+            <div id="old-route-alert" class="ui yellow message hidden">この投稿は最終更新日から{years}年以上が経過しています。<br>情報が古い可能性がありますのでご注意ください。</div>
             <a class="ui fluid button teal large" id="post-url" target="_blank" rel="noopener noreferrer">GoogleMapでこのルートを見る</a>
             <div id="post-detail-box" class="post-detail-box">
                 <div class="horizontal">
