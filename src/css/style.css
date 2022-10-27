@@ -1,11 +1,3 @@
-h2 {
-    color: #434C5E
-}
-
-h3 {
-    margin: 6px 0 !important;
-}
-
 .body-bg {
     background: #edf2f7;
 }
@@ -82,14 +74,6 @@ h3 {
     display: none;
 }
 
-.detail-timeview {
-    margin-bottom: 4px !important;
-}
-
-.detail-timeview > span {
-    margin-right: 12px;
-}
-
 .logo-header {
     height: 36px;
     padding: 0 !important;
@@ -123,8 +107,9 @@ h3 {
     z-index: 999;
 }
 
-.ui .card .image img {
+.ui .card .image img, .detail-image {
     width: 100%;
+    border-radius: 12px;
 }
 
 .flex-box {
@@ -141,6 +126,41 @@ h3 {
 
 .map {
     height: 60vh;
+}
+
+.route-detail > * {
+    margin-bottom: 12px !important;
+}
+
+.post-detail-box {
+    background-color: rgba(0, 0, 0, 0.05);
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.post-detail-box p {
+    margin-bottom: 0 !important;
+}
+
+.post-detail-box > h3 {
+    margin-bottom: 12px !important;
+} 
+
+.post-detail-box h4 {
+    margin: 8px 0 !important;
+}
+
+.post-detail-box > h4:first-child {
+    margin-top: 0 !important;
+}
+
+h2 {
+    color: #434C5E
+}
+
+h3 {
+    margin: 6px 0 !important;
 }
 
 @media only screen and (max-width: 767px) {
