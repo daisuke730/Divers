@@ -64,7 +64,7 @@ $staticmap_api_params['markers'] = 'size:mid|color:red|' . $post_result['departu
 $staticmap_api_params['path'] = 'enc:' . $post_result['polyline'];
 $staticmap_api_params['key'] = get_env('api-key')['google-api-server'];
 
-$staticmap_api_query = implode('&', array_map(function($key, $value) { return $key . '=' . $value; }, array_keys($staticmap_api_params), $staticmap_api_params));
+$staticmap_api_query = http_build_query($staticmap_api_params);
 
 // APIリクエスト
 $response = file_get_contents($GOOGLE_MAP_STATIC_API . '?' . $staticmap_api_query);
