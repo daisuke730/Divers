@@ -5,10 +5,12 @@ const CARD_TEMPLATE = `
             <a href="detail.php?id=%ROUTE_ID%">%ROUTE_NAME%</a>
         </div>
         <div class="image">
-            <img src="%THUMBNAIL_URL%">
+            <a href="detail.php?id=%ROUTE_ID%"><img src="%THUMBNAIL_URL%"></a>
         </div>
         <div class="meta">
-            <span class="date">%ROUTE_CREATED_AT%</span>
+            <span><i class="walking icon"></i> %ROUTE_DISTANCE%</span>
+            <span><i class="clock icon"></i> %ROUTE_DURATION%</span>
+            <span><i class="calendar icon"></i> %ROUTE_CREATED_AT%</span>
         </div>
         <div class="description">%ROUTE_DESCRIPTION%</div>
     </div>

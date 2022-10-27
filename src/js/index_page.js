@@ -7,11 +7,13 @@ async function renderingPosts(page = 1, search) {
         return CARD_TEMPLATE
             .replace(/%ROUTE_NAME%/g, post.name)
             .replace(/%ROUTE_ID%/g, post.id)
-            .replace(/%ROUTE_CREATED_AT%/g, post.created_at)
+            .replace(/%ROUTE_CREATED_AT%/g, dateBeautify(post.updated_at))
             .replace(/%ROUTE_DESCRIPTION%/g, post.description)
             .replace(/%BUTTON_COMPONENT%/g, getLikeButtonTemplate(post.id, post.is_liked, post.like_count))
             .replace(/%MANAGE_COMPONENT%/g, post.can_edit ? getManageComponentTemplate(post.id) : '')
             .replace(/%THUMBNAIL_URL%/g, `/api/image.php?id=${post.id}`)
+            .replace(/%ROUTE_DISTANCE%/g, distanceBeautify(post.distance))
+            .replace(/%ROUTE_DURATION%/g, durationBeautify(post.duration))
     })
 
     // htmlとして追加

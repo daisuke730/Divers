@@ -45,5 +45,6 @@ include("../components/head.php");
 
 <script src="/js/api.js"></script>
 <script src="/js/templates.js"></script>
+<script src="/js/utils.js"></script>
 <script src="/js/index_page.js"></script>
 <?php include("../components/footer.php"); ?>
