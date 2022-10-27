@@ -44,6 +44,18 @@ function get_likes($post_id, $user_id) {
   ];
 }
 
+function get_googlemap_url($data) {
+  $API_URL = 'https://www.google.com/maps/dir/';
+  $params = [];
+  $params['api'] = 1;
+  $params['origin'] = $data['departure_location'];
+  $params['destination'] = $data['destination_location'];
+  $params['travelmode'] = 'walking';
+  $params['waypoints'] = implode('|', json_decode($data['waypoints'], true));
+
+  return $API_URL . '?' . http_build_query($params);
+}
+
 // エラーを返す
 function error($message) {
   echo json_encode([
@@ -154,7 +166,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
       $direction_api_params['waypoints'] = implode('|', json_decode($_POST['waypoints']));
       $direction_api_params['key'] = get_env('api-key')['google-api-server'];
 
-      $direction_api_query = implode('&', array_map(function($key, $value) { return $key . '=' . $value; }, array_keys($direction_api_params), $direction_api_params));
+      $direction_api_query = http_build_query($direction_api_params);
 
       // APIリクエスト
       $response = file_get_contents($GOOGLE_MAP_DIRECTION_API . '?' . $direction_api_query);
@@ -255,6 +267,9 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         // この投稿を編集できるかどうか
         $post['can_edit'] = $post['user_id'] === get_user_id() || is_admin();
+
+        // URLを追加
+        $post['url'] = get_googlemap_url($post);
       }
 
       // 投稿の件数を取得
@@ -302,6 +317,9 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
 
       // この投稿を編集できるかどうか
       $result['can_edit'] = $result['user_id'] === $user_id || is_admin();
+
+      // URLを追加
+      $result['url'] = get_googlemap_url($result);
 
       echo json_encode($result);
       exit();
