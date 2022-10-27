@@ -199,6 +199,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sql = 'UPDATE posts SET name=:name, departure=:departure, destination=:destination, departure_location=:departure_location, destination_location=:destination_location, waypoints=:waypoints, distance=:distance, duration=:duration, polyline=:polyline, description=:description, updated_at=now() WHERE id=:id';
       }
 
+      $distanceNum = 0;
+      $durationNum = 0;
+
+      foreach ($direction_result['routes'][0]['legs'] as $leg) {
+        $distanceNum += $leg['distance']['value'];
+        $durationNum += $leg['duration']['value'];
+      }
+
       $stmt = $pdo->prepare($sql);
       $stmt->bindValue(':name', $name, PDO::PARAM_STR);
       $stmt->bindValue(':departure', $_POST['departure'], PDO::PARAM_STR);
@@ -206,8 +214,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
       $stmt->bindValue(':departure_location', $_POST['departure_location'], PDO::PARAM_STR);
       $stmt->bindValue(':destination_location', $_POST['destination_location'], PDO::PARAM_STR);
       $stmt->bindValue(':waypoints', $_POST['waypoints'], PDO::PARAM_STR);
-      $stmt->bindValue(':distance', $direction_result['routes'][0]['legs'][0]['distance']['value'], PDO::PARAM_INT);
-      $stmt->bindValue(':duration', $direction_result['routes'][0]['legs'][0]['duration']['value'], PDO::PARAM_INT);
+      $stmt->bindValue(':distance', $distanceNum, PDO::PARAM_INT);
+      $stmt->bindValue(':duration', $durationNum, PDO::PARAM_INT);
       $stmt->bindValue(':polyline', $direction_result['routes'][0]['overview_polyline']['points'], PDO::PARAM_STR);
       $stmt->bindValue(':description', $description, PDO::PARAM_STR);
 
