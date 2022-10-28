@@ -26,10 +26,11 @@ include("components/head.php");
     </div>
   </div>
   <div class="contents">
-    <div class="responsive-container">
-      <a class="ui button teal big" href="/register.php">新規登録</a>
+    <a class="ui button big teal" href="/posts">ルート一覧はこちら</a>
+    <div class="responsive-container" style="margin-top: 32px;">
+      <a class="ui button" href="/register.php">新規登録</a>
       <span>または</span>
-      <a class="ui button big" href="/login.php">ログイン</a>
+      <a class="ui button" href="/login.php">ログイン</a>
     </div>
     <div class="ui info message" style="margin-top: 32px;">
       <a href="/howtouse.php">使い方はこちらをご覧ください</a>
