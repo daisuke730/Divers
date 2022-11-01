@@ -59,6 +59,13 @@ const TABLE_TEMPLATE = `
 </tr>
 `
 
+const RADIOBUTTON_TEMPLATE = `
+<div class="ui radio no-margin">
+    <input id="sort-button-%NUMBER%" type="radio" name="%KEY%" value="%NAME%" %ATTR%>
+    <label for="sort-button-%NUMBER%" class="ui button">%DISPLAY_NAME%</label>
+</div>
+`
+
 isLoggedIn = false
 api('GET', 'isLoggedIn').then(res => {
     isLoggedIn = res.isLoggedIn
@@ -122,4 +129,13 @@ function getPaginationTemplate(page, count) {
     }
 
     return paginationHtmlArray.join('')
+}
+
+function getRadioButtonTemplate(key, name, displayName, isDefault, number) {
+    return RADIOBUTTON_TEMPLATE
+        .replace(/%NAME%/g, name)
+        .replace(/%DISPLAY_NAME%/g, displayName)
+        .replace(/%NUMBER%/g, number)
+        .replace(/%KEY%/g, key)
+        .replace(/%ATTR%/g, isDefault ? 'checked' : '')
 }

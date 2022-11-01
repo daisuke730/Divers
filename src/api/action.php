@@ -10,18 +10,12 @@ if(!isset($_GET['q']) && !isset($_POST['q'])) {
 
 $pdo = connect_to_db();
 
-// 投稿IDからいいね数といいね状態を取得
-function get_likes($post_id, $user_id) {
+// 受け入れることの出来るソートカラム一覧
+$acceptable_sort_list = ['like_count' => 'DESC', 'distance' => 'ASC', 'duration' => 'ASC'];
+
+// 投稿IDからいいねの状態を取得
+function get_is_liked($post_id, $user_id) {
   global $pdo;
-
-  // いいね数を取得
-  $sql = "SELECT COUNT(*) AS likes FROM likes WHERE post_id = :post_id";
-  $stmt = $pdo->prepare($sql);
-  $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
-  $status = $stmt->execute();
-  db_error_check($status, $stmt);
-  $likes = $stmt->fetch(PDO::FETCH_ASSOC);
-
   // いいね状態を取得
   // ユーザーIDが-1ならfalseを返す
   if ($user_id == -1) {
@@ -38,10 +32,7 @@ function get_likes($post_id, $user_id) {
     $liked = $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  return [
-    'like_count' => $likes['likes'],
-    'is_liked' => $liked['liked'] > 0
-  ];
+  return $liked['liked'] > 0;
 }
 
 function get_googlemap_url($data) {
@@ -256,9 +247,16 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
     // - searchクエリで投稿を検索可能
     case 'getPosts': {
       $keyword = isset($_GET['search']) ? $_GET['search'] : '';
+      $sort_query = isset($_GET['sort']) ? $_GET['sort'] : '';
 
-      // 投稿を取得
-      $sql = "SELECT * FROM posts WHERE name LIKE :keyword ORDER BY updated_at DESC LIMIT 10 OFFSET :offset";
+      // ソート出来るかどうかを判別
+      $can_sort = array_key_exists($sort_query, $acceptable_sort_list);
+      $sort_column = $can_sort ? $sort_query : 'created_at';
+      $sort_order = $can_sort ? $acceptable_sort_list[$sort_query] : 'DESC';
+
+      // likesテーブルからいいね数を取得し、そのデータを投稿データに結合
+      // 任意のカラムで並び替え、オフセットを設定して投稿を取得
+      $sql = 'SELECT posts.*, COUNT(likes.post_id) AS like_count FROM posts LEFT JOIN likes ON posts.id = likes.post_id WHERE posts.name LIKE :keyword GROUP BY posts.id ORDER BY ' . $sort_column . ' ' . $sort_order . ' LIMIT 10 OFFSET :offset';
       $stmt = $pdo->prepare($sql);
       $offset = isset($_GET['page']) ? (max((int)$_GET['page'], 1) - 1) * 10 : 0;
       $stmt->bindValue(':keyword', "%{$keyword}%", PDO::PARAM_STR);
@@ -267,11 +265,8 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       foreach($result as &$post) {
-        // いいね数と自分がいいねしているかを取得
-        $likeState = get_likes($post['id'], get_user_id());
-
-        // リザルトと統合
-        $post = array_merge($post, $likeState);
+        // 自分がいいねしているかを取得
+        $post['is_liked'] = get_is_liked($post['id'], get_user_id());
 
         // この投稿を編集できるかどうか
         $post['can_edit'] = $post['user_id'] === get_user_id() || is_admin();
@@ -307,8 +302,8 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       $post_id = $_GET['id'];
       $user_id = get_user_id();
 
-      // 投稿を取得
-      $sql = "SELECT * FROM posts WHERE id = :post_id";
+      // likesテーブルからいいね数を取得し、そのデータを投稿データに結合
+      $sql = 'SELECT posts.*, COUNT(likes.post_id) AS like_count FROM posts LEFT JOIN likes ON posts.id = likes.post_id WHERE posts.id = :post_id GROUP BY posts.id';
       $stmt = $pdo->prepare($sql);
       $stmt->bindValue(':post_id', $post_id, PDO::PARAM_INT);
       $stmt->execute();
@@ -317,11 +312,8 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       // 投稿が存在しなければエラーを返して終了
       if (!$result) return error('投稿が存在しません');
 
-      // いいね数と自分がいいねしているかを取得
-      $likeState = get_likes($post_id, $user_id);
-
-      // リザルトと統合
-      $result = array_merge($result, $likeState);
+      // 自分がいいねしているかを取得
+      $result['is_liked'] = get_is_liked($post_id, get_user_id());
 
       // この投稿を編集できるかどうか
       $result['can_edit'] = $result['user_id'] === $user_id || is_admin();
