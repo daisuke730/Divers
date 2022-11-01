@@ -20,7 +20,7 @@ async function renderingPosts(page = 1, search) {
     $('#route-list').html(postsHtmlArray.join(''))
 
     // ページネーションを作成
-    $('#pagination').html(getPaginationTemplate(page, res.count))
+    $('#pagination').html(getPaginationTemplate(page, res.count, search))
 
     $('#route-count').text(res.count ? `全${res.count}件中 ${1 + res.offset} ~ ${Math.min(10 + res.offset, res.count)}件目を表示中` : '投稿が見つかりませんでした。')
 }
