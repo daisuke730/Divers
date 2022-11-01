@@ -56,6 +56,7 @@ include("../components/head.php");
 </div>
 
 <script src="/js/api.js"></script>
+<script src="/js/state_manager.js"></script>
 <script src="/js/templates.js"></script>
 <script src="/js/utils.js"></script>
 <script src="/js/index_page.js"></script>

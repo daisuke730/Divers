@@ -1,13 +1,12 @@
-const listStates = {
-    search: null,
-    sort: null
-}
-
-async function renderingPosts(page = 1) {
+async function renderingPosts(page) {
     // APIから投稿を取得
-    let params = {page}
-    if (listStates.search) params['search'] = listStates.search
-    if (listStates.sort) params['sort'] = listStates.sort
+    let params = {}
+
+    page = page || getState('page') * 1 || 1
+    params.page = page
+
+    if (getState('search')) params['search'] = getState('search')
+    if (getState('sort')) params['sort'] = getState('sort')
     
     let res = await api('GET', 'getPosts', params)
     let postsHtmlArray = res.posts.map(post => {
@@ -30,6 +29,8 @@ async function renderingPosts(page = 1) {
     $('#pagination').html(getPaginationTemplate(page, res.count))
 
     $('#route-count').text(res.count ? `全${res.count}件中 ${1 + res.offset} ~ ${Math.min(10 + res.offset, res.count)}件目を表示中` : '投稿が見つかりませんでした。')
+
+    setState('page', page > 1 ? page : null)
 }
 
 function showDeleteModal(id) {
@@ -75,8 +76,8 @@ window.onload = () => {
     $('#search-button').on('click', () => {
         let query = $('#search-input').val()
         let sort = $('input[name="sort-options"]:checked').val()
-        listStates.search = query || null
-        listStates.sort = sort === 'updated_at' ? null : sort
+        setState('search', query || null)
+        setState('sort', sort === 'updated_at' ? null : sort)
         renderingPosts(1)
     })
 
