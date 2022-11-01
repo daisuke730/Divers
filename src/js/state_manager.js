@@ -20,5 +20,5 @@ function setState(prop, value) {
         urlSearchParams.set(prop, value)
     }
 
-    history.pushState(null, null, url)
+    history.replaceState(null, null, url)
 }
