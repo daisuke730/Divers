@@ -98,27 +98,27 @@ function getManageComponentTemplate(id) {
         .replace(/%DELETE_ACTION%/g, `showDeleteModal(${id})`)
 }
 
-function getPaginationButton(page, cssClass, text, search) {
+function getPaginationButton(page, cssClass, text) {
     return PAGINATION_TEMPLATE
         .replace(/%CLASS%/g, cssClass)
-        .replace(/%ACTION%/g, (cssClass === 'disabled' || cssClass === 'active') ? '' : `renderingPosts(${page + (search ? `, '${search}'` : '')})`)
+        .replace(/%ACTION%/g, (cssClass === 'disabled' || cssClass === 'active') ? '' : `renderingPosts(${page})`)
         .replace(/%NUMBER%/g, text || page)
 }
 
-function getPaginationTemplate(page, count, search) {
+function getPaginationTemplate(page, count) {
     let maxPage = Math.ceil(count / 10)
     let paginationHtmlArray = []
 
     if (maxPage >= 1) {
-        paginationHtmlArray.push(getPaginationButton(1, page === 1 ? 'disabled' : '', '<i class="angle double left icon"></i>', search))
-        paginationHtmlArray.push(getPaginationButton(Math.max(page - 1, 1), page === 1 ? 'disabled' : '', '<i class="angle left icon"></i>', search))
+        paginationHtmlArray.push(getPaginationButton(1, page === 1 ? 'disabled' : '', '<i class="angle double left icon"></i>'))
+        paginationHtmlArray.push(getPaginationButton(Math.max(page - 1, 1), page === 1 ? 'disabled' : '', '<i class="angle left icon"></i>'))
 
         for (let i = 1; i <= maxPage; i++) {
-            paginationHtmlArray.push(getPaginationButton(i, i === page ? 'active' : '', null, search))
+            paginationHtmlArray.push(getPaginationButton(i, i === page ? 'active' : ''))
         }
 
-        paginationHtmlArray.push(getPaginationButton(Math.min(page + 1, maxPage), page === maxPage ? 'disabled' : '', '<i class="angle right icon"></i>', search))
-        paginationHtmlArray.push(getPaginationButton(maxPage, page === maxPage ? 'disabled' : '', '<i class="angle double right icon"></i>', search))
+        paginationHtmlArray.push(getPaginationButton(Math.min(page + 1, maxPage), page === maxPage ? 'disabled' : '', '<i class="angle right icon"></i>'))
+        paginationHtmlArray.push(getPaginationButton(maxPage, page === maxPage ? 'disabled' : '', '<i class="angle double right icon"></i>'))
     }
 
     return paginationHtmlArray.join('')

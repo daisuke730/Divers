@@ -1,7 +1,12 @@
-async function renderingPosts(page = 1, search) {
+const listStates = {
+    search: null
+}
+
+async function renderingPosts(page = 1) {
     // APIから投稿を取得
     let params = {page}
-    if (search) params['search'] = search
+    if (listStates.search) params['search'] = listStates.search
+    
     let res = await api('GET', 'getPosts', params)
     let postsHtmlArray = res.posts.map(post => {
         return CARD_TEMPLATE
@@ -20,7 +25,7 @@ async function renderingPosts(page = 1, search) {
     $('#route-list').html(postsHtmlArray.join(''))
 
     // ページネーションを作成
-    $('#pagination').html(getPaginationTemplate(page, res.count, search))
+    $('#pagination').html(getPaginationTemplate(page, res.count))
 
     $('#route-count').text(res.count ? `全${res.count}件中 ${1 + res.offset} ~ ${Math.min(10 + res.offset, res.count)}件目を表示中` : '投稿が見つかりませんでした。')
 }
@@ -33,7 +38,8 @@ function showDeleteModal(id) {
 window.onload = () => {
     $('#search-button').on('click', () => {
         let query = $('#search-input').val()
-        renderingPosts(1, query)
+        listStates.search = query || null
+        renderingPosts(1)
     })
 
     renderingPosts()
