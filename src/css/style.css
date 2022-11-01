@@ -95,10 +95,8 @@
 .horizontal {
     display: flex;
     flex-direction: row;
-}
-
-.horizontal > * {
-    margin-right: 12px !important;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .ui.pagination.menu {
@@ -161,6 +159,28 @@
 
 .post-detail-box > h4:first-child {
     margin-top: 0 !important;
+}
+
+.modal {
+    border-radius: 12px !important;
+}
+
+.search-modal .content > * {
+    margin-bottom: 20px !important;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+/* ラジオボタン */
+.radio input {
+    display: none;
+}
+
+.radio input[type="radio"]:checked + label {
+    background: #f2711c;
+    color: #fff;
 }
 
 h2 {
