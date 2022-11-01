@@ -38,7 +38,10 @@ include("../components/head.php");
                     <p id="post-description"></p>
                 </div>
             </div>
-            <div id="like-button"></div>
+            <div class="horizontal">
+                <div id="like-button"></div>
+                <a id="line-share-button" class="ui button green" href="#" target="_brank" rel="nofollow noopener noreferrer">LINEで送る</a>
+            </div>
         </div>
         <button class="ui button" onclick="history.back()"><i class="arrow left icon"></i>戻る</button>
     </div>
