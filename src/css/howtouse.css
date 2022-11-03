@@ -11,3 +11,264 @@ header .title {
   max-height: 50vh;
   margin-bottom: 12px;
 }
+
+header {
+  /* position: -webkit-sticky; Safari用 */
+  position: sticky;
+  /* 要素をスクロールに応じて固定 */
+  top: 0;
+  /* 縦スクロールに追従 */
+  left: 0;
+  /* 横ストロールに追従 */
+  z-index: 100;
+  /* z-indexで最前面に持ってくる */
+  width: 100%;
+
+  background-color: #FABB00;
+}
+
+header .title {
+  text-align: left;
+}
+
+header img {
+  width: 270px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1 {
+  /* 文字の位置を下げる */
+  margin-top: 0;
+  vertical-align: middle;
+  color: #000000;
+  /* font-size: 60px; */
+  font-family: "Montserrat";
+  font-weight: 800;
+  vertical-align: middle;
+}
+
+
+
+body {
+  background-color: #99e9f7;
+  margin-top: auto;
+  margin-bottom: auto;
+  /* 右詰めしたい */
+  margin-left: auto;
+}
+
+ul {
+  /* display: block; */
+  /* list-style-type: disc; */
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  /* padding-inline-start: 40px; */
+}
+
+.about_main-nav {
+  list-style: none;
+  padding-left: 5;
+}
+
+.about_title-nav {
+  list-style: none;
+  padding-left: 0;
+}
+
+h3 {
+  text-align: left;
+}
+
+.toc {
+  display: block;
+  clear: both;
+  padding: 20px 0 20px;
+  top: 0;
+  left: 0;
+  border-radius: 10px;
+  /* overflow: scroll; */
+}
+
+.toc ul {
+  padding: 0 20px;
+  list-style-type: none;
+}
+
+.toc a {
+  color: #333;
+}
+
+.toc a:hover {
+  color: #757C84;
+}
+
+.toc h2 {
+  margin: 0;
+  padding: 10px 0;
+}
+
+@media screen and (min-width: 1435px) and (orientation: landscape) {
+  .toc h2 {
+    background: inherit;
+    text-align: inherit;
+    border-bottom: 1px #eee solid;
+    padding: 10px;
+  }
+
+  .toc ul {
+    padding: 0 10px;
+  }
+
+  .toc li {
+    padding: 0 10px;
+  }
+}
+
+.ui.container {
+  margin-top: 0px;
+  margin-right: 0px !important;
+}
+
+/* ページトップへ戻るボタンを実装*/
+.pagetop {
+  height: 50px;
+  width: 50px;
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  background: #fff;
+  border: solid 2px #000;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  box-shadow: 0 4px 6px rgb(0 0 0 / 30%);
+}
+
+.pagetop__arrow {
+  height: 10px;
+  width: 10px;
+  border-top: 3px solid #000;
+  border-right: 3px solid #000;
+  transform: translateY(20%) rotate(-45deg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  .pagetop:hover,
+  .pagetop:hover .pagetop__arrow {
+    border-color: #99e9f7;
+  }
+}
+
+/* 目次のピンをデザイン */
+.item {
+  margin-left: 30px;
+}
+
+.item_main {
+  margin-left: 0px;
+}
+
+/* 新規登録・ログインはこちらのリンクのデザイン */
+.new_link a {
+  position: relative;
+  display: inline-block;
+  padding: 0.1em 0.3em;
+  text-decoration: none;
+  font-weight: bold;
+  color: #000;
+}
+
+.new_link a:after,
+.new_link a::before {
+  position: absolute;
+  bottom: 0;
+  content: '';
+  transition: all 0.3s ease;
+}
+
+.new_link a:after {
+  right: 50%;
+  left: 50%;
+  width: 0;
+  height: 100%;
+  background-color: #99e9f7;
+  /*ホバー時の背景色*/
+}
+
+.new_link a::before {
+  left: 0;
+  width: 100%;
+  height: calc(100% - 2px);
+  border-top: 1.5px solid #1166b1;
+  /*上線*/
+  border-bottom: 1.5px solid #1166B1;
+  /*下線*/
+}
+
+.new_link a:hover:after {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+}
+
+.new_link a:hover::before {
+  right: 50%;
+  left: 50%;
+  width: 0%;
+}
+
+.youtube {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-bottom: 56.25%;
+}
+
+.youtube iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  /*境界線の打ち消し*/
+}
+
+.movie {
+  width: 60%;
+}
+
+.container-with-toc {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.container-with-toc .ui.container {
+  width: unset !important;
+  margin: unset !important;
+}
+
+.in-toc {
+  padding: 0 !important;
+  position: sticky;
+  top: 64px;
+}
+
+.in-toc-wrapper {
+  flex-grow: 1;
+}
+
+.container-with-toc > .main-contents {
+  flex-grow: 5;
+}
