@@ -54,11 +54,11 @@ $staticmap_api_params = [];
 $staticmap_api_params['language'] = 'ja';
 $staticmap_api_params['size'] = '640x360';
 $staticmap_api_params['scale'] = '2';
-$staticmap_api_params['markers'] = 'size:mid|color:red|' . $post_result['departure_location'] . '|' . $post_result['distination_location'];
+$staticmap_api_params['markers'] = ['size:mid|color:blue|' . $post_result['departure_location'], 'size:mid|color:red|' . $post_result['destination_location']];
 $staticmap_api_params['path'] = 'enc:' . $post_result['polyline'];
 $staticmap_api_params['key'] = get_env('api-key')['google-api-server'];
 
-$staticmap_api_query = http_build_query($staticmap_api_params);
+$staticmap_api_query = preg_replace('/%5B\d+%5D=/i', '=', http_build_query($staticmap_api_params));
 
 // APIリクエスト
 $response = file_get_contents($GOOGLE_MAP_STATIC_API . '?' . $staticmap_api_query);
