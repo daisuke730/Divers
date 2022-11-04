@@ -21,6 +21,23 @@ body {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
+.contents-container {
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 36px;
+    flex-wrap: wrap;
+}
+
+.contents-container.reverse {
+    flex-wrap: wrap-reverse !important;
+}
+
+.contents-container > img {
+    height: 512px;
+}
+
 .card {
     border-radius: 10px !important;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important;
@@ -190,8 +207,12 @@ body {
     color: #fff;
 }
 
-h2 {
-    color: #434C5E
+.ui.button {
+    border-radius: 8px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #434C5E;
 }
 
 h3 {
