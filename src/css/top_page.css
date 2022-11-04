@@ -1,0 +1,38 @@
+/* .slider-image {
+    width: 100%;
+    height: 50vh;
+    max-height: 512px;
+    background-position: center;
+    background-size: cover;
+    filter: blur(5px);
+} */
+
+.head-container {
+    width: 100%;
+    height: 50vh;
+    max-height: 512px;
+    background: linear-gradient(45deg, rgba(251, 213, 251, 1), rgba(149, 233, 243, 1));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.button.white {
+    background: #ECEFF4 !important;
+    color: #3B4252 !important;
+}
+
+.button.white:hover {
+    background: #E5E9F0 !important;
+}
+
+.head-logo {
+    width: 30%;
+    min-width: 400px;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.25));
+}
+
+.button-container {
+    margin-top: 5vh;
+}
