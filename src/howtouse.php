@@ -206,11 +206,11 @@ include("components/head.php");
       <h3 class="hdg-type-3" align="left">検索・ソート機能</h3>
     </div>
     <p align="left">DiversMapには検索・ソート機能があります。赤枠のボタンを押してください。</p>
-    <img src="/img/howtouse/iphone_search1.PNG" alt="Divers Map（ダイバーズマップ）の使い方〜スマホ版">
+    <img src="/img/howtouse/iphone_search1.png" alt="Divers Map（ダイバーズマップ）の使い方〜スマホ版">
     <p align="left">出発地や目的地を入力し、並び替えたい順番を選び、検索ボタンを押します。</p>
-    <img src="/img/howtouse/iphone_search2.PNG" alt="Divers Map（ダイバーズマップ）の使い方〜スマホ版">
+    <img src="/img/howtouse/iphone_search2.png" alt="Divers Map（ダイバーズマップ）の使い方〜スマホ版">
     <p align="left">検索のワードに当てはまる投稿を並び替えられた状態で表示することができます。</p>
-    <img src="/img/howtouse/iphone_search3.PNG" alt="Divers Map（ダイバーズマップ）の使い方〜スマホ版">
+    <img src="/img/howtouse/iphone_search3.png" alt="Divers Map（ダイバーズマップ）の使い方〜スマホ版">
 
     <div class="heading section">
       <a name="sub_01-4"></a>
