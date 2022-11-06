@@ -22,6 +22,7 @@ async function getPostData() {
     $('#route-image').attr('src', `/api/image.php?id=${res.id}`)
     $('#route-distance').text(distanceBeautify(res.distance))
     $('#route-duration').text(durationBeautify(res.duration))
+    $('#line-share-button').attr('href', `https://social-plugins.line.me/lineit/share?url=${location.href}`)
 
     let timeDiff = new Date() - new Date(res.updated_at)
     let timeDiffYears = Math.floor(Math.abs(timeDiff) / (365 * 24 * 60 * 60 * 1000))

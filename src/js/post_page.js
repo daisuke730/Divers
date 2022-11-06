@@ -9,14 +9,27 @@ const latestMapData = {
     res: null,
     url: null
 }
+const states = {
+    isRemoveMode: false,
+    removeMarkers: []
+}
 const urlQuerys = new URLSearchParams(location.search)
 
 window.onload = async function() {
     $('#url-input').on('change', () => { parseURL() })
     $('#submit-button').on('click', () => { submit() })
-    $('#departure').on('change', () => { updateRoute() })
-    $('#destination').on('change', () => { updateRoute() })
+    $('#departure').on('input', () => { checkCanPushRoute() })
+    $('#destination').on('input', () => { checkCanPushRoute() })
+    $('#search-button').on('click', () => { updateRoute() })
     $('#import-confirm-button').on('click', () => { applyURLRoute() })
+    $('#import-button').on('click', () => {
+        $('#import-modal').modal({
+            blurring: true,
+            closable: false,
+            transition: 'fade up',
+        }).modal('show')
+    })
+    $('#remove-waypoint').on('click', () => { waypointRemoveMode() })
 
     routeDataStatus.isNewPost = !urlQuerys.has('id')
     routeDataStatus.routeDataLoaded = true
@@ -65,7 +78,14 @@ function initMap() {
     if (!routeDataStatus.isNewPost) applyMode()
 }
 
+function reRenderMap() {
+    const directions = mapService.directionsRenderer.getDirections()
+    if (!directions) return
+    mapService.directionsRenderer.setDirections(directions)
+}
+
 function displayRoute(origin, destination, waypoints = []) {
+    exitWaypointRemoveMode()
     mapService.directionsService.route({
         origin: origin,
         destination: destination,
@@ -84,11 +104,32 @@ function displayRoute(origin, destination, waypoints = []) {
                 break
             }
 
+            case 'ZERO_RESULTS': {
+                showInfo('指定された経由地を通るルートが見つかりませんでした。<br>経由地の場所(丸いピン)を変えてみてください。')
+                break
+            }
+
+            case 'MAX_WAYPOINTS_EXCEEDED': {
+                showInfo('経由地が多すぎるためルートを検索することが出来ませんでした。<br>経由地(丸いピン)を減らしてみてください。')
+                break
+            }
+
             default: {
                 showError('ルートの取得に失敗しました。<br>時間を開けてから再度お試しください。<br>Err: ' + e.code)
             }
         }
     })
+}
+
+function checkCanPushRoute() {
+    const departure = $('#departure').val()
+    const destination = $('#destination').val()
+
+    if (departure && destination) {
+        $('#search-button').removeClass('disabled')
+    } else {
+        $('#search-button').addClass('disabled')
+    }
 }
 
 function updateRoute() {
@@ -97,7 +138,83 @@ function updateRoute() {
 
     if (departure && destination) {
         displayRoute(departure, destination)
+        hideError()
+        $('#search-button').addClass('disabled')
+    } else {
+        showError('出発地と目的地を入力してください')
     }
+}
+
+function waypointRemoveMode() {
+    if (states.isRemoveMode) return exitWaypointRemoveMode()
+    if (!latestMapData.res) return
+    states.isRemoveMode = true
+    mapService.directionsRenderer.setOptions({
+        draggable: false,
+        markerOptions: {
+            visible: false
+        }
+    })
+    reRenderMap()
+
+    $('#remove-waypoint').html('<i class="arrow left icon"></i> 編集モードに戻る')
+    $('#remove-waypoint-hint').text('削除したい経由地（赤色のピン）をクリックしてください')
+
+    const map = mapService.map
+    const mapData = latestMapData.res.routes[0].legs[0]
+    
+    mapData.via_waypoints.forEach((waypoint) => {
+        const marker = new google.maps.Marker({
+            position: waypoint,
+            map: map,
+            label: {
+                text: '\ue5cd',
+                color: 'white',
+                fontSize: '18px',
+                fontFamily: 'Material Icons'
+            }
+        })
+
+        marker.addListener('click', () => {
+            removeWaypoint(marker.getPosition())
+        })
+
+        states.removeMarkers.push(marker)
+    })
+}
+
+function exitWaypointRemoveMode() {
+    states.isRemoveMode = false
+    states.removeMarkers.forEach((marker) => {
+        marker.setMap(null)
+    })
+    states.removeMarkers = []
+    mapService.directionsRenderer.setOptions({
+        draggable: true,
+        markerOptions: {
+            visible: true
+        }
+    })
+    reRenderMap()
+    $('#remove-waypoint').html('<i class="trash icon"></i> 経由地の削除')
+    $('#remove-waypoint-hint').text('「経由地の削除」を押すと経由地を削除できるようになります')
+}
+
+function removeWaypoint(position) {
+    const mapData = latestMapData.res.routes[0].legs[0]
+    const waypoints = mapData.via_waypoints
+    const index = waypoints.findIndex((waypoint) => {
+        return waypoint.lat() === position.lat() && waypoint.lng() === position.lng()
+    })
+    if (index === -1) return
+
+    waypoints.splice(index, 1)
+    displayRoute(mapData.start_address, mapData.end_address, waypoints.map((waypoint) => {
+        return { 
+            location: waypoint,
+            stopover: false
+        }
+    }))
 }
 
 async function parseURL() {

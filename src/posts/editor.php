@@ -7,6 +7,7 @@ check_session_id();
 <?php
 $title = '投稿を作成';
 $bgColor = true;
+$css = ['https://fonts.googleapis.com/icon?family=Material+Icons'];
 include("../components/head.php");
 ?>
 
@@ -16,7 +17,7 @@ include("../components/head.php");
     <div id="error-message" class="ui red message hidden"></div>
     <div id="info-message" class="ui yellow message hidden"></div>
     <div class="ui form">
-      <button id="import-button" class="ui button" onclick="$('.ui.modal').modal('show')">GoogleMapからルートをインポート</button>
+      <button id="import-button" class="ui button">GoogleMapからルートをインポート</button>
       <div class="flex-box">
         <div class="field">
           <label>出発地</label>
@@ -27,10 +28,15 @@ include("../components/head.php");
           <input id="destination" type="text" name="destination" placeholder="目的地">
         </div>
       </div>
+      <button id="search-button" class="ui fluid large teal button disabled">経路を検索する</button>
       <div id="map" class="map"></div>
-      <div>
-        <p>所要時間: <span id="route-duration">----</span></p>
-        <p>距離: <span id="route-distance">----</span></p>
+      <div class="horizontal">
+        <button id="remove-waypoint" class="ui button"><i class="trash icon"></i> 経由地の削除</button>
+        <p id="remove-waypoint-hint">「経由地の削除」を押すと経由地を削除できるようになります</p>
+      </div>
+      <div class="horizontal">
+        <h3><i class="walking icon"></i>距離: <span id="route-distance">----</span></h3>
+        <h3><i class="clock icon"></i>所要時間: <span id="route-duration">----</span></h3>
       </div>
       <div class="field">
         <label>ルートの説明 (任意)</label>
@@ -41,8 +47,8 @@ include("../components/head.php");
   </div>
 </div>
 
-<div class="ui modal">
-  <div class="header">GoogleMapからルートをインポートする</div>
+<div id="import-modal" class="ui modal">
+  <div class="basic header">GoogleMapからルートをインポートする</div>
   <div class="content">
     <div class="description">
       <p>GoogleMapのURLを貼り付けることでルートをインポートすることができます。</p>
@@ -50,13 +56,13 @@ include("../components/head.php");
       <div class="ui form">
         <div class="field">
           <label>GoogleMap URL</label>
-          <input class="" id="url-input" type="text" placeholder="https://www.google.com/maps/dir/...">
+          <input id="url-input" type="text" placeholder="https://www.google.com/maps/dir/...">
         </div>
       </div>
       <p>ステータス: <span id="url-status-message">URLを貼り付けてください</span></p>
     </div>
   </div>
-  <div class="actions">
+  <div class="basic actions">
     <div class="ui deny button">キャンセル</div>
     <div id="import-confirm-button" class="ui positive right labeled icon button">インポートする<i class="checkmark icon"></i></div>
   </div>

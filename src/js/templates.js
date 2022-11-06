@@ -4,13 +4,13 @@ const CARD_TEMPLATE = `
         <div class="header">
             <a href="detail.php?id=%ROUTE_ID%">%ROUTE_NAME%</a>
         </div>
-        <div class="image">
-            <a href="detail.php?id=%ROUTE_ID%"><img src="%THUMBNAIL_URL%"></a>
-        </div>
         <div class="meta">
             <span><i class="walking icon"></i> %ROUTE_DISTANCE%</span>
             <span><i class="clock icon"></i> %ROUTE_DURATION%</span>
             <span><i class="calendar icon"></i> %ROUTE_CREATED_AT%</span>
+        </div>
+        <div class="image">
+            <a href="detail.php?id=%ROUTE_ID%"><img src="%THUMBNAIL_URL%"></a>
         </div>
         <div class="description">%ROUTE_DESCRIPTION%</div>
     </div>
@@ -57,6 +57,13 @@ const TABLE_TEMPLATE = `
         <button class="ui button" onclick="%DELETE_ACTION%">削除</button>
     </td>
 </tr>
+`
+
+const RADIOBUTTON_TEMPLATE = `
+<div class="ui radio no-margin">
+    <input id="sort-button-%NUMBER%" type="radio" name="%KEY%" value="%NAME%" %ATTR%>
+    <label for="sort-button-%NUMBER%" class="ui button">%DISPLAY_NAME%</label>
+</div>
 `
 
 isLoggedIn = false
@@ -122,4 +129,13 @@ function getPaginationTemplate(page, count) {
     }
 
     return paginationHtmlArray.join('')
+}
+
+function getRadioButtonTemplate(key, name, displayName, isDefault, number) {
+    return RADIOBUTTON_TEMPLATE
+        .replace(/%NAME%/g, name)
+        .replace(/%DISPLAY_NAME%/g, displayName)
+        .replace(/%NUMBER%/g, number)
+        .replace(/%KEY%/g, key)
+        .replace(/%ATTR%/g, isDefault ? 'checked' : '')
 }

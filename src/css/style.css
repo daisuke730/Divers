@@ -1,3 +1,8 @@
+body {
+    height: unset !important;
+    min-height: 100vh;
+}
+
 .body-bg {
     background: #edf2f7;
 }
@@ -16,6 +21,23 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
+.contents-container {
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 36px;
+    flex-wrap: wrap;
+}
+
+.contents-container.reverse {
+    flex-wrap: wrap-reverse !important;
+}
+
+.contents-container > img {
+    height: 512px;
+}
+
 .card {
     border-radius: 10px !important;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important;
@@ -23,6 +45,14 @@
 
 .card:hover {
     box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.card .content:not(.extra) {
+    padding-top: 20px !important;
+}
+
+.card .content:not(.extra) > * {
+    margin-bottom: 8px !important;
 }
 
 .flex-container {
@@ -68,6 +98,7 @@
     background: #fff;
     padding: 12px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    margin-top: 24px;
 }
 
 .hidden {
@@ -87,10 +118,9 @@
 .horizontal {
     display: flex;
     flex-direction: row;
-}
-
-.horizontal > * {
-    margin-right: 12px !important;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
 }
 
 .ui.pagination.menu {
@@ -155,12 +185,34 @@
     margin-top: 0 !important;
 }
 
-.card .image {
-    margin: 8px 0;
+.modal {
+    border-radius: 12px !important;
 }
 
-h2 {
-    color: #434C5E
+.search-modal .content > * {
+    margin-bottom: 20px !important;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+/* ラジオボタン */
+.radio input {
+    display: none;
+}
+
+.radio input[type="radio"]:checked + label {
+    background: #f2711c;
+    color: #fff;
+}
+
+.ui.button {
+    border-radius: 8px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #434C5E;
 }
 
 h3 {
