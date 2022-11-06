@@ -5,7 +5,8 @@ async function renderingPosts(page) {
     page = page || getState('page') * 1 || 1
     params.page = page
 
-    if (getState('search')) params['search'] = getState('search')
+    if (getState('departure')) params['departure'] = getState('departure')
+    if (getState('destination')) params['destination'] = getState('destination')
     if (getState('sort')) params['sort'] = getState('sort')
     
     let res = await api('GET', 'getPosts', params)
@@ -74,9 +75,11 @@ window.onload = () => {
     })
 
     $('#search-button').on('click', () => {
-        let query = $('#search-input').val()
+        let departure = $('#departure').val()
+        let destination = $('#destination').val()
         let sort = $('input[name="sort-options"]:checked').val()
-        setState('search', query || null)
+        setState('departure', departure || null)
+        setState('destination', destination || null)
         setState('sort', sort === 'updated_at' ? null : sort)
         renderingPosts(1)
     })

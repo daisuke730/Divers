@@ -43,8 +43,15 @@ include("../components/head.php");
   <div class="basic header">ルート検索</div>
   <div class="content">
     <h3>検索</h3>
-    <div class="ui fluid input">
-      <input id="search-input" type="text" placeholder="行きたい地点名や出発地などを入力してみてください">
+    <div class="ui form flex-box">
+      <div class="field">
+        <label>出発地</label>
+        <input id="departure" type="text" name="departure" placeholder="出発地">
+      </div>
+      <div class="field">
+        <label>目的地</label>
+        <input id="destination" type="text" name="destination" placeholder="目的地">
+      </div>
     </div>
     <h3>並び替え</h3>
     <div id="sort-lists" class="ui form horizontal"></div>

@@ -246,7 +246,8 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
     // - pageクエリでオフセットを設定可能 (10件ずつ)
     // - searchクエリで投稿を検索可能
     case 'getPosts': {
-      $keyword = isset($_GET['search']) ? $_GET['search'] : '';
+      $keyword_dep = isset($_GET['departure']) ? $_GET['departure'] : '';
+      $keyword_des = isset($_GET['destination']) ? $_GET['destination'] : '';
       $sort_query = isset($_GET['sort']) ? $_GET['sort'] : '';
 
       // ソート出来るかどうかを判別
@@ -256,10 +257,11 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
 
       // likesテーブルからいいね数を取得し、そのデータを投稿データに結合
       // 任意のカラムで並び替え、オフセットを設定して投稿を取得
-      $sql = 'SELECT posts.*, COUNT(likes.post_id) AS like_count FROM posts LEFT JOIN likes ON posts.id = likes.post_id WHERE posts.name LIKE :keyword GROUP BY posts.id ORDER BY ' . $sort_column . ' ' . $sort_order . ' LIMIT 10 OFFSET :offset';
+      $sql = 'SELECT posts.*, COUNT(likes.post_id) AS like_count FROM posts LEFT JOIN likes ON posts.id = likes.post_id WHERE posts.departure LIKE :keyword_dep AND posts.destination LIKE :keyword_des GROUP BY posts.id ORDER BY ' . $sort_column . ' ' . $sort_order . ' LIMIT 10 OFFSET :offset';
       $stmt = $pdo->prepare($sql);
       $offset = isset($_GET['page']) ? (max((int)$_GET['page'], 1) - 1) * 10 : 0;
-      $stmt->bindValue(':keyword', "%{$keyword}%", PDO::PARAM_STR);
+      $stmt->bindValue(':keyword_dep', "%{$keyword_dep}%", PDO::PARAM_STR);
+      $stmt->bindValue(':keyword_des', "%{$keyword_des}%", PDO::PARAM_STR);
       $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
       $stmt->execute();
       $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -276,9 +278,10 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       }
 
       // 投稿の件数を取得
-      $sql = "SELECT COUNT(*) AS count FROM posts WHERE name LIKE :keyword";
+      $sql = "SELECT COUNT(*) AS count FROM posts WHERE departure LIKE :keyword_dep AND destination LIKE :keyword_des";
       $stmt = $pdo->prepare($sql);
-      $stmt->bindValue(':keyword', "%{$keyword}%", PDO::PARAM_STR);
+      $stmt->bindValue(':keyword_dep', "%{$keyword_dep}%", PDO::PARAM_STR);
+      $stmt->bindValue(':keyword_des', "%{$keyword_des}%", PDO::PARAM_STR);
       $stmt->execute();
       $count = $stmt->fetch(PDO::FETCH_ASSOC);
 
