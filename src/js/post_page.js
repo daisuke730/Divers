@@ -51,7 +51,7 @@ function initMap() {
         },
         zoom: 15,
         mapTypeControl: false,
-        streetViewControl: false
+        streetViewControl: true
     })
 
     const directionsService = new google.maps.DirectionsService()
