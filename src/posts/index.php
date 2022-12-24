@@ -55,6 +55,11 @@ include("../components/head.php");
     </div>
     <h3>並び替え</h3>
     <div id="sort-lists" class="ui form horizontal"></div>
+    <h3>絞り込み</h3>
+    <div class="ui checkbox">
+      <input id="only-myroute" type="checkbox" name="only-myroute">
+      <label for="only-myroute">自分の投稿したルートから検索する</label>
+    </div>
   </div>
   <div class="basic actions">
     <div class="ui cancel button">キャンセル</div>

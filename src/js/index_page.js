@@ -8,6 +8,8 @@ async function renderingPosts(page) {
     if (getState('departure')) params['departure'] = getState('departure')
     if (getState('destination')) params['destination'] = getState('destination')
     if (getState('sort')) params['sort'] = getState('sort')
+    if (getState('only-myroute')) params['only-myroute'] = getState('only-myroute')
+
     
     let res = await api('GET', 'getPosts', params)
     let postsHtmlArray = res.posts.map(post => {
@@ -78,9 +80,11 @@ window.onload = () => {
         let departure = $('#departure').val()
         let destination = $('#destination').val()
         let sort = $('input[name="sort-options"]:checked').val()
+        let onlyMyRoute = $('#only-myroute').prop('checked')
         setState('departure', departure || null)
         setState('destination', destination || null)
         setState('sort', sort === 'updated_at' ? null : sort)
+        setState('only-myroute', onlyMyRoute ? true : null)
         renderingPosts(1)
     })
 
