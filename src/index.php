@@ -6,21 +6,11 @@ include('functions.php');
 <?php
 $title = "DiversMap";
 $bgColor = false;
-$css = ['https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/css/splide.min.css', '/css/top_page.css'];
+$css = ['/css/top_page.css'];
 include("components/head.php");
 ?>
 
 <div class="head-container">
-    <!-- <div id="slide" class="splide" role="group" aria-label="">
-        <div class="splide__track">
-            <ul class="splide__list">
-                <li class="splide__slide"><div class="slider-image" style="background-image: url(/img/top/image1.jpg)"></li>
-                <li class="splide__slide"><div class="slider-image" style="background-image: url(/img/top/image2.jpg)"></li>
-                <li class="splide__slide"><div class="slider-image" style="background-image: url(/img/top/image3.jpg)"></li>
-                <li class="splide__slide"><div class="slider-image" style="background-image: url(/img/top/image4.jpg)"></li>
-            </ul>
-        </div>
-    </div> -->
     <img src="/img/logo_top.png" alt="logo" class="head-logo">
     <h3>みんなで作る、ルート共有アプリ</h3>
     <div class="horizon button-container">
@@ -46,6 +36,6 @@ include("components/head.php");
 </div>
 
 <?php
-$js = ['https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js', '/js/top_page.js'];
+$js = ['/js/top_page.js'];
 include("components/footer.php");
 ?>
