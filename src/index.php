@@ -35,6 +35,25 @@ include("components/head.php");
     <img src="/img/top/mockup_route_post.png">
 </div>
 
+<div class="ui divider"></div>
+
+<div class="contents-container sponsors">
+    <div>
+        <h2>スポンサー</h2>
+        <p>DiversMapは以下の企業様にご支援頂いております。</p>
+        <div>
+            <img src="/img/top/sponsor-fujikikai.png">
+            <h3><a href="https://www.fujikikai-inc.co.jp/" target="_brank">株式会社フジキカイ</a> 様</h3>
+        </div>
+
+        <h2>協力団体</h2>
+        <div>
+            <img src="/img/top/coop-taiyototsukinoakari.jpg">
+            <h3><a href="https://www.taiyo-tsukinoakari.com/" target="_brank">株式会社 太陽と月の明</a> 様</h3>
+        </div>
+    </div>
+</div>
+
 <?php
 $js = ['/js/top_page.js'];
 include("components/footer.php");
