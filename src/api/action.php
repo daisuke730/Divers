@@ -249,6 +249,7 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       $keyword_dep = isset($_GET['departure']) ? $_GET['departure'] : '';
       $keyword_des = isset($_GET['destination']) ? $_GET['destination'] : '';
       $sort_query = isset($_GET['sort']) ? $_GET['sort'] : '';
+      $show_myroute = isset($_GET['only-myroute']) && is_loggedin() ? get_user_id() : '%';
 
       // ソート出来るかどうかを判別
       $can_sort = array_key_exists($sort_query, $acceptable_sort_list);
@@ -257,9 +258,10 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
 
       // likesテーブルからいいね数を取得し、そのデータを投稿データに結合
       // 任意のカラムで並び替え、オフセットを設定して投稿を取得
-      $sql = 'SELECT posts.*, COUNT(likes.post_id) AS like_count FROM posts LEFT JOIN likes ON posts.id = likes.post_id WHERE posts.departure LIKE :keyword_dep AND posts.destination LIKE :keyword_des GROUP BY posts.id ORDER BY ' . $sort_column . ' ' . $sort_order . ' LIMIT 10 OFFSET :offset';
+      $sql = 'SELECT posts.*, COUNT(likes.post_id) AS like_count FROM posts LEFT JOIN likes ON posts.id = likes.post_id WHERE posts.user_id LIKE :show_user_id AND posts.departure LIKE :keyword_dep AND posts.destination LIKE :keyword_des GROUP BY posts.id ORDER BY ' . $sort_column . ' ' . $sort_order . ' LIMIT 10 OFFSET :offset';
       $stmt = $pdo->prepare($sql);
       $offset = isset($_GET['page']) ? (max((int)$_GET['page'], 1) - 1) * 10 : 0;
+      $stmt->bindValue(':show_user_id', $show_myroute, PDO::PARAM_STR);
       $stmt->bindValue(':keyword_dep', "%{$keyword_dep}%", PDO::PARAM_STR);
       $stmt->bindValue(':keyword_des', "%{$keyword_des}%", PDO::PARAM_STR);
       $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
@@ -278,8 +280,9 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       }
 
       // 投稿の件数を取得
-      $sql = "SELECT COUNT(*) AS count FROM posts WHERE departure LIKE :keyword_dep AND destination LIKE :keyword_des";
+      $sql = "SELECT COUNT(*) AS count FROM posts WHERE user_id LIKE :show_user_id AND departure LIKE :keyword_dep AND destination LIKE :keyword_des";
       $stmt = $pdo->prepare($sql);
+      $stmt->bindValue(':show_user_id', $show_myroute, PDO::PARAM_STR);
       $stmt->bindValue(':keyword_dep', "%{$keyword_dep}%", PDO::PARAM_STR);
       $stmt->bindValue(':keyword_des', "%{$keyword_des}%", PDO::PARAM_STR);
       $stmt->execute();

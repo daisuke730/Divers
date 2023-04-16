@@ -36,3 +36,11 @@
 .button-container {
     margin-top: 5vh;
 }
+
+.sponsors div {
+    text-align: center;
+}
+
+.sponsors img {
+    width: 240px;
+}

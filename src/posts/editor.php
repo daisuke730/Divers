@@ -39,7 +39,7 @@ include("../components/head.php");
         <h3><i class="clock icon"></i>所要時間: <span id="route-duration">----</span></h3>
       </div>
       <div class="field">
-        <label>ルートの説明 (任意)</label>
+        <label>ルートの説明</label>
         <textarea id="description" rows="3" placeholder="このルートに関する説明を入力してください。説明はルート一覧および詳細ページで表示されます。"></textarea>
       </div>
       <button id="submit-button" class="ui fluid large teal submit button" type="submit">投稿</button>
